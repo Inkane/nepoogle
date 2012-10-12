@@ -1188,13 +1188,12 @@ class Nepoogle(QWidget):
 
             else:
                 return "<b>[Unplugged<a title=\"uuid:%s\" href=\"prop:/%s\">%s</a>]</b><a title=\"%s\" href=\"%s\"><em>%s</em></a>" \
-                        % (par2[8:].split('/')[0], \
-                            par2[8:].split('/')[0], \
-                            self.htmlLinkInfo, \
-                            par1, \
-                            par1, \
-                            '/' + '/'.join(par2[8:].split('/')[1:]) \
-                            )
+                       % (par2[8:].split('/')[0],
+                       par2[8:].split('/')[0],
+                       self.htmlLinkInfo,
+                       par1,
+                       par1,
+                       '/' + '/'.join(par2[8:].split('/')[1:]))
 
         elif id == 'url':
             title = "title=\"%s\"" % par1
