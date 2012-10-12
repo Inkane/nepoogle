@@ -19,7 +19,7 @@ from lglobals import DO_NOT_USE_NEPOMUK, PROGRAM_NAME, DEFAULT_ENGINE, PROGRAM_H
 from cldataformat import cDataFormat
 from clsparql import cSparqlBuilder, cResource, NOCR, NOC
 from chelper import cWebView, hackQueryParser
-from lfunctions import dialogInputBox, dialogList, dialogTextInputBox, lindex, vartype, toVariant
+from lfunctions import dialogInputBox, dialogList, dialogTextInputBox, lindex, vartype, toVariant, fileExists
 from lglobals import INTERNAL_RESOURCE, SLEEP_AFTER_UPDATE, SLEEP_NO_SLEEP
 
 _ = gettext.gettext
