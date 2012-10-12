@@ -35,6 +35,11 @@ for name in API_NAMES:
     sip.setapi(name, API_VERSION)
 
 from PyQt4.QtGui import QApplication, QDesktopWidget
+from PyKDE4.nepomuk import Nepomuk
+
+from nepoogle import Nepoogle
+from lglobals import DEFAULT_ENGINE, PROGRAM_VERSION_DATE, PROGRAM_VERSION_VERSION, PROGRAM_NAME
+from clsparql import cSparqlBuilder, cDataFormat, hackQueryParser
 
 #from PyKDE4.kdecore import ki18n, i18n, KCmdLineArgs, KAboutData
 #from PyKDE4.kdeui import KApplication, KXmlGuiWindow, KStandardAction, KAction, KIcon
@@ -86,8 +91,6 @@ from PyQt4.QtGui import QApplication, QDesktopWidget
 #TODO: añadir soporte a --connect, --disconnect, --daemonize y moverlos a Nepoogle
 #TODO: todo en html para que pueda ser un servidor.
 
-from nepoogle import Nepoogle
-from lglobals import DEFAULT_ENGINE, PROGRAM_VERSION_DATE, PROGRAM_VERSION_VERSION, PROGRAM_NAME
 
 _ = gettext.gettext
 
@@ -237,7 +240,7 @@ def main(args):
         if searchString[:3].lower() in ('e0 ', 'e1 ', 'e2 '):
             searchEngine = int(searchString[1:2])
 
-        output = "%(title)s\n" % {'title': 'Querying Nepomuk' }
+        output = "%(title)s\n" % {'title': 'Querying Nepomuk'}
         print(output)
 
         #if True:
@@ -272,7 +275,7 @@ def main(args):
                     oSparql.stdoutQuery = verboseMode
                     oSparql.columns = '?x0 AS ?id ' + oSparql.columns
                     data, structure, time = oSparql.executeQuery(oSparql.buildQuery(searchString))
-                    warningsList =  oSparql.warningsList
+                    warningsList = oSparql.warningsList
                     oSparql.warningsList = []
 
                 oSparql = None
@@ -282,14 +285,13 @@ def main(args):
                     oDataFormat.formatAsText(data, structure, time)
 
                 output = "\n%(records)s records found in %(seconds).4f seconds.\n" \
-                            "--\n" \
-                            "Powered by %(name)s %(version)s (%(date)s)" \
-                            % {'records': len(data), \
-                                'seconds': time, \
-                                'name': PROGRAM_NAME, \
-                                'version': PROGRAM_VERSION_VERSION, \
-                                'date': PROGRAM_VERSION_DATE \
-                                }
+                         "--\n" \
+                         "Powered by %(name)s %(version)s (%(date)s)" \
+                         % {'records': len(data),
+                             'seconds': time,
+                             'name': PROGRAM_NAME,
+                             'version': PROGRAM_VERSION_VERSION,
+                             'date': PROGRAM_VERSION_DATE}
 
                 # Handle possible warnings.
                 warningMsg = ""
@@ -299,10 +301,10 @@ def main(args):
 
                     if warning[0] == "BUG001":
                         warningMsg += "There is a know bug using negation without a shortcut.\n" \
-                                "Please notice that the results may be inaccurate.\n\n"
+                                      "Please notice that the results may be inaccurate.\n\n"
                         for i in range(1, len(warning)):
                             warningMsg += "Change \"%s\" for something like \"title:%s\" to solve this issue.\n" \
-                            % (warning[i], warning[i])
+                                          % (warning[i], warning[i])
 
                     #else:
                         #pass
@@ -320,14 +322,13 @@ def main(args):
 
         except KeyboardInterrupt:
             output = "\nOperation aborted by user...\n" \
-                        "\n--\n" \
-                        "Powered by %(name)s %(version)s (%(date)s)" \
-                        % {'title': 'Querying Nepomuk', \
-                            'error': sys.exc_info()[1], \
-                            'name': PROGRAM_NAME, \
-                            'version': PROGRAM_VERSION_VERSION, \
-                            'date': PROGRAM_VERSION_DATE \
-                            }
+                     "\n--\n" \
+                     "Powered by %(name)s %(version)s (%(date)s)" \
+                     % {'title': 'Querying Nepomuk',
+                     'error': sys.exc_info()[1],
+                     'name': PROGRAM_NAME,
+                     'version': PROGRAM_VERSION_VERSION,
+                     'date': PROGRAM_VERSION_DATE}
 
         except:
             msgError = "%s" % sys.exc_info()[1]
