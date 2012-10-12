@@ -35,14 +35,15 @@ from PyKDE4.kdeui import KIconLoader
 from PyKDE4.nepomuk import Nepomuk
 from PyKDE4.soprano import Soprano
 
-from clsparql import NOC, NOCR, ONTOLOGY_MUSIC_ALBUM_COVER, ontologyInfo
+from clsparql import (NOC, NOCR, ONTOLOGY_MUSIC_ALBUM_COVER, ontologyInfo,
+                      ontologyToHuman, cResource)
 from lfunctions import (lindex, vartype, fileExists, toUnicode, getThumbnailUrl,
-                        fromPercentEncoding, lvalue, addLinksToText,
-                        ontologyToHuman)
-from lglobals import (PROGRAM_HTML_POWERED, INTERNAL_RESOURCE, cResource,
+                        fromPercentEncoding, lvalue, addLinksToText, formatDate,
+                        formatDateTime)
+from lglobals import (PROGRAM_HTML_POWERED, INTERNAL_RESOURCE,
                       DO_NOT_USE_NEPOMUK, INTERNAL_RESOURCE_IN_PLAYLIST,
-                      INTERNAL_RESOURCE_FORCED_IN_CONSOLE, formatDate,
-                      formatDateTime, INTERNAL_RESOURCE_IN_RESULTS_LIST,
+                      INTERNAL_RESOURCE_FORCED_IN_CONSOLE,
+                      INTERNAL_RESOURCE_IN_RESULTS_LIST,
                       USE_INTERNAL_RESOURCE_FOR_MAIN_TYPE, SCRIPT_IMAGE_VIEWER)
 
 _ = gettext.gettext
