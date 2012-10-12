@@ -582,7 +582,6 @@ class Nepoogle(QWidget):
             self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>'
                                   % self.iconProcessIdle)
 
-
     def editProperty(self, uri=None, ontology=None):
         if (uri is None):
             uri = self.leSearch.text().strip()
@@ -669,7 +668,6 @@ class Nepoogle(QWidget):
 
         return True
 
-
     def removeProperty(self, uri=None, ontology=None):
         if ((uri is None) or (ontology is None)):
             return False
@@ -739,7 +737,6 @@ class Nepoogle(QWidget):
             self.queryMethod = "refresh"
             self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>'
                                   % self.iconProcessIdle)
-
 
     def dropHandler(self, event):
         supportedImageFormats = QImageReader.supportedImageFormats() + ["nef"]
@@ -1102,45 +1099,44 @@ class Nepoogle(QWidget):
                    "</p>\n"
 
         output = "<html>\n  <head>\n"\
-                "<style type=\"text/css\">" \
-                "body {%(body_style)s}\n" \
-                "p {%(p_style)s}\n" \
-                "ul {%(ul_style)s}\n" \
-                "li {%(li_style)s}\n" \
-                "tr {%(tr_style)s}\n" \
-                "</style>\n" \
-                "<title>%(title)s</title>\n    " \
-                "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" \
-                "\n  </head>\n<body>\n" \
-                "<p><h3>%(program)s's help</h3></p>\n" \
-                "<p><b>%(program)s</b> is a system to query the <em>Nepomuk's database</em>. <b>%(program)s</b> does not search the file system so that only returns results that are pre-collected in <em>Nepomuk's database</em>.</p>\n" \
-                "<p><b>Warning!:</b> since <b>%(program)s 0.9.4</b> resources can be edited using dialog forms and/or drag&amp;drop but this features are <em>not fully tested and may contain bugs</em>. Please, <em>be cautious</em> using edition capabilities!</p>\n" \
-                "%(examples)s" \
-                "%(remarks)s" \
-                "%(shortcuts)s" \
-                "%(commands)s" \
-                "%(syntax)s" \
-                "For bugs, suggestions or wishes send a mail to kde@aynoa.net\n" \
-                "%(powered)s</body>\n</html>" \
-                % {'title': 'Querying Nepomuk',
-                'error': sys.exc_info()[1],
-                'program': os.path.basename(sys.argv[0]),
-                'powered': PROGRAM_HTML_POWERED,
-                'remarks': remarks,
-                'syntax': syntax,
-                'shortcuts': shortcuts,
-                'commands': commands,
-                'examples': examples,
-                'body_style': "font-size:small",
-                'p_style': "font-size:small",
-                'ul_style': "font-size:small",
-                'li_style': "font-size:small",
-                'tr_style': "font-size:small;"}
+                 "<style type=\"text/css\">" \
+                 "body {%(body_style)s}\n" \
+                 "p {%(p_style)s}\n" \
+                 "ul {%(ul_style)s}\n" \
+                 "li {%(li_style)s}\n" \
+                 "tr {%(tr_style)s}\n" \
+                 "</style>\n" \
+                 "<title>%(title)s</title>\n    " \
+                 "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" \
+                 "\n  </head>\n<body>\n" \
+                 "<p><h3>%(program)s's help</h3></p>\n" \
+                 "<p><b>%(program)s</b> is a system to query the <em>Nepomuk's database</em>. <b>%(program)s</b> does not search the file system so that only returns results that are pre-collected in <em>Nepomuk's database</em>.</p>\n" \
+                 "<p><b>Warning!:</b> since <b>%(program)s 0.9.4</b> resources can be edited using dialog forms and/or drag&amp;drop but this features are <em>not fully tested and may contain bugs</em>. Please, <em>be cautious</em> using edition capabilities!</p>\n" \
+                 "%(examples)s" \
+                 "%(remarks)s" \
+                 "%(shortcuts)s" \
+                 "%(commands)s" \
+                 "%(syntax)s" \
+                 "For bugs, suggestions or wishes send a mail to kde@aynoa.net\n" \
+                 "%(powered)s</body>\n</html>" \
+                 % {'title': 'Querying Nepomuk',
+                 'error': sys.exc_info()[1],
+                 'program': os.path.basename(sys.argv[0]),
+                 'powered': PROGRAM_HTML_POWERED,
+                 'remarks': remarks,
+                 'syntax': syntax,
+                 'shortcuts': shortcuts,
+                 'commands': commands,
+                 'examples': examples,
+                 'body_style': "font-size:small",
+                 'p_style': "font-size:small",
+                 'ul_style': "font-size:small",
+                 'li_style': "font-size:small",
+                 'tr_style': "font-size:small;"}
 
         return output
 
-
-    def htmlRenderLink(self, id = 'uri', par1 = '', par2 = ''):
+    def htmlRenderLink(self, id='uri', par1='', par2=''):
         if id == 'uri':
             title = "title=\"%s\"" % par1
             href = "href=\"%s\"" % par1
@@ -1403,4 +1399,3 @@ class Nepoogle(QWidget):
 
         if warningMsg != "":
             QMessageBox.warning(self, "%s - %s" % (PROGRAM_NAME, _("warning")), warningMsg)
-
