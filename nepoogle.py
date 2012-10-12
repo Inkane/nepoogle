@@ -718,7 +718,7 @@ class Nepoogle(QWidget):
                 value = resourcesList[0][0]
                 label = resourcesList[0][1]
 
-            if ((value != None) and (value != "")):
+            if ((value is not None) and (value != "")):
                 reply = QMessageBox.question(self, '%s - remove property' % PROGRAM_NAME, "Remove property \"%s\" with value \"%s\"?" % (ontology, label), QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
                 if reply == QMessageBox.Yes:
                     print("%s: property %s removed" % (uri, ontology))
@@ -736,8 +736,8 @@ class Nepoogle(QWidget):
             time.sleep(mustRefresh)
             self.pendingQuery = True
             self.queryMethod = "refresh"
-            self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>' \
-                % self.iconProcessIdle)
+            self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>'
+                                  % self.iconProcessIdle)
 
 
     def dropHandler(self, event):
