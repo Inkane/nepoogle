@@ -578,12 +578,12 @@ class Nepoogle(QWidget):
             time.sleep(mustRefresh)
             self.pendingQuery = True
             self.queryMethod = "refresh"
-            self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>' \
-                % self.iconProcessIdle)
+            self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>'
+                                  % self.iconProcessIdle)
 
 
-    def editProperty(self, uri = None, ontology = None):
-        if (uri == None):
+    def editProperty(self, uri=None, ontology=None):
+        if (uri is None):
             uri = self.leSearch.text().strip()
 
         if not uri[:13] == "nepomuk:/res/":
@@ -592,7 +592,7 @@ class Nepoogle(QWidget):
 
         mustRefresh = SLEEP_NO_SLEEP
 
-        if self.model == None:
+        if self.model is None:
             return False
 
         if INTERNAL_RESOURCE:
@@ -632,7 +632,7 @@ class Nepoogle(QWidget):
         except:
             text = None
 
-        if text != None:
+        if text is not None:
             newText = dialogTextInputBox("Editing \"%s\":" % ontology, text)
             if newText != text:
                 resourceReply = QMessageBox.question(self, '%s - edit value' % PROGRAM_NAME, _("Save changes to '%s'?") % (ontology), QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
@@ -663,25 +663,25 @@ class Nepoogle(QWidget):
             time.sleep(mustRefresh)
             self.pendingQuery = True
             self.queryMethod = "refresh"
-            self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>' \
-                % self.iconProcessIdle)
+            self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>'
+                                  % self.iconProcessIdle)
 
         return True
 
 
-    def removeProperty(self, uri = None, ontology = None):
-        if ((uri == None) or (ontology == None)):
+    def removeProperty(self, uri=None, ontology=None):
+        if ((uri is None) or (ontology is None)):
             return False
 
         mustRefresh = SLEEP_NO_SLEEP
 
         query = 'SELECT DISTINCT ?v\n' \
                 'WHERE {\n' \
-                    '\t<%s> %s ?v .\n' \
+                '\t<%s> %s ?v .\n' \
                 '}\n' \
                 % (uri, ontology)
 
-        values  = []
+        values = []
         queryResultSet = self.model.executeQuery(query, Soprano.Query.QueryLanguageSparql)
         if queryResultSet.isValid():
             while queryResultSet.next():
