@@ -499,8 +499,7 @@ class Nepoogle(QWidget):
 
         return rating
 
-
-    def addProperty(self, uri = None, ontology = "", text = ""):
+    def addProperty(self, uri=None, ontology="", text=""):
         if (uri is None):
             uri = self.leSearch.text().strip()
 
@@ -510,7 +509,7 @@ class Nepoogle(QWidget):
 
         mustRefresh = SLEEP_NO_SLEEP
 
-        if self.model == None:
+        if self.model is None:
             return False
 
         if INTERNAL_RESOURCE:
