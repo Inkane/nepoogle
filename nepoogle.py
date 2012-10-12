@@ -1157,10 +1157,10 @@ class Nepoogle(QWidget):
             value = self.htmlLinkSearch
 
         elif id == 'navigator':
-            return "%s%s%s%s" % (self.htmlLinkNavigateFirst, \
-                                    self.htmlLinkNavigatePrevious, \
-                                    self.htmlLinkNavigateNext, \
-                                    self.htmlLinkNavigateLast)
+            return "%s%s%s%s" % (self.htmlLinkNavigateFirst,
+                                 self.htmlLinkNavigatePrevious,
+                                 self.htmlLinkNavigateNext,
+                                 self.htmlLinkNavigateLast)
 
         elif id == 'ontology':
             title = "title=\"%s:+\'%s\'\"" % (par1, par2)
@@ -1181,11 +1181,10 @@ class Nepoogle(QWidget):
         elif id == 'unplugged':
             if par1 == '':
                 return "<b>[Unplugged<a title=\"uuid:%s\" href=\"prop:/%s\">%s</a>]</b><em>%s</em>" \
-                        % (par2[8:].split('/')[0], \
-                            par2[8:].split('/')[0], \
-                            self.htmlLinkInfo, \
-                            '/' + '/'.join(par2[8:].split('/')[1:]) \
-                            )
+                       % (par2[8:].split('/')[0],
+                          par2[8:].split('/')[0],
+                          self.htmlLinkInfo,
+                          '/' + '/'.join(par2[8:].split('/')[1:]))
 
             else:
                 return "<b>[Unplugged<a title=\"uuid:%s\" href=\"prop:/%s\">%s</a>]</b><a title=\"%s\" href=\"%s\"><em>%s</em></a>" \
