@@ -24,7 +24,9 @@
 #***************************************************************************
 
 from __future__ import unicode_literals
-import datetime, gettext, md5, os, re, signal, subprocess, sys, time
+import gettext
+import os
+import sys
 
 import sip
 API_NAMES = ["QDate", "QDateTime", "QString", "QTextStream", "QTime", "QUrl", "QVariant"]
@@ -32,14 +34,6 @@ API_VERSION = 2
 for name in API_NAMES:
     sip.setapi(name, API_VERSION)
 
-from PyQt4.QtCore import *
-from PyKDE4.kdecore import *
-from PyKDE4.nepomuk import *
-from PyKDE4.soprano import *
-
-from PyQt4.QtGui import *
-from PyQt4.QtWebKit import *
-from PyKDE4.kdeui import *
 #from PyKDE4.kdecore import ki18n, i18n, KCmdLineArgs, KAboutData
 #from PyKDE4.kdeui import KApplication, KXmlGuiWindow, KStandardAction, KAction, KIcon
 #from PyKDE4.kdecore import *
@@ -91,19 +85,13 @@ from PyKDE4.kdeui import *
 #TODO: todo en html para que pueda ser un servidor.
 
 from nepoogle import Nepoogle
-from lglobals import *
+from lglobals import DEFAULT_ENGINE
 
 _ = gettext.gettext
 
-from lfunctions import *
-
-from clsparql import *
-
-from cldataformat import *
-
 
 def buildHelp():
-    print("%(name)s %(version)s (%(date)s)\n" \
+    print("%(name)s %(version)s (%(date)s)\n"
               % {'name': PROGRAM_NAME, 'version': PROGRAM_VERSION_VERSION, 'date': PROGRAM_VERSION_DATE})
 
     print("Usage: %s [command ] [query]\n" \
