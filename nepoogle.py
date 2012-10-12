@@ -15,9 +15,10 @@ from PyKDE4.soprano import Soprano
 from lglobals import DO_NOT_USE_NEPOMUK, PROGRAM_NAME, DEFAULT_ENGINE, PROGRAM_HTML_POWERED, PROGRAM_URL
 
 from cldataformat import cDataFormat
-from clsparql import cSparqlBuilder
+from clsparql import cSparqlBuilder, cResource
 from chelper import cWebView, hackQueryParser
 from lfunctions import dialogInputBox, dialogList, dialogTextInputBox, lindex, vartype
+from lglobals import INTERNAL_RESOURCE
 
 _ = gettext.gettext
 
@@ -454,7 +455,7 @@ class Nepoogle(QWidget):
             resource = uri
 
         else:
-            if self.model == None:
+            if self.model is None:
                 return False
 
             if INTERNAL_RESOURCE:
