@@ -348,7 +348,7 @@ class cResource():
                     "\t<%(uri)s> %(ont)s ?val .\n"\
                 "}\n" % {'uri': uri, 'ont': ont}
         if self.stdout:
-            print toUtf8(query)
+            print query
 
         self.data = self.model.executeQuery(query, Soprano.Query.QueryLanguageSparql)
         value = None
@@ -434,7 +434,7 @@ class cResource():
                     "}\n" \
                     "ORDER BY ?val"
             if self.stdout:
-                print toUtf8(query)
+                print query
 
             self.data = self.model.executeQuery(query, Soprano.Query.QueryLanguageSparql)
             ontType = "http://www.w3.org/2000/01/rdf-schema#Resource"
@@ -449,7 +449,7 @@ class cResource():
                                     "\t<%s> rdfs:subClassOf ?r .\n" \
                                 "}\n" % currOntType
                         if self.stdout:
-                            print toUtf8(query)
+                            print query
 
                         self.dataAux = self.model.executeQuery(query, Soprano.Query.QueryLanguageSparql)
                         currOntValue = 0
@@ -680,7 +680,7 @@ class cSparqlBuilder():
                     # It's a full query.
                     query = self.commands[idx][1][0].strip()
                     if self.stdoutQuery:
-                        print toUtf8(query)
+                        print query
 
                     return query
 
@@ -731,7 +731,7 @@ class cSparqlBuilder():
                 + limits
 
         if self.stdoutQuery:
-            print toUtf8(query)
+            print query
 
         self.tempData = ['', [], [], []]
 
@@ -1435,8 +1435,8 @@ class cSparqlBuilder():
             string = string[3:]
 
         items = self.split(string)
-        #print toUtf8(string)
-        #print toUtf8(items)
+        #print string
+        #print items
 
         command = ""
         commandsFound = 0
@@ -1636,7 +1636,7 @@ class cSparqlBuilder():
                         if bindingName[-len(self.sortSuffix):] == self.sortSuffix:
                             continue
 
-                        structure += [toUnicode(bindingName.toUtf8())]
+                        structure += [toUnicode(bindingName)]
 
                 aRow = []
                 for bindingName in bindings.bindingNames():
@@ -1660,7 +1660,7 @@ class cSparqlBuilder():
                         elif value[:7] == 'file://' or value[:7] == 'http://' or value[:8] == 'https://':
                             # Novedad en kde 4.7.0
                             qurl = QUrl()
-                            qurl.setEncodedUrl(toUtf8(value))
+                            qurl.setEncodedUrl(value)
                             value = toUnicode(qurl.toString())
                             # Novedad en kde 4.7.0
 

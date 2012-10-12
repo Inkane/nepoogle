@@ -64,7 +64,7 @@ def dialogInputBox(message = _("Text")):
     if (value[-1] == "\n"):
         value = value[:-1]
 
-    print(toUtf8("dialogInputBox:%s" % value))
+    print("dialogInputBox:%s" % value)
     return value
 
 
@@ -90,7 +90,7 @@ def dialogList(parameters = [], message = _("Select")):
         except:
             label = toUnicode(value)
 
-    print(toUtf8("dialogList:%s" % value))
+    print("dialogList:%s" % value)
     return value, label
 
 
@@ -106,7 +106,7 @@ def dialogTextInputBox(message = _("Text"), value = ""):
     if (value[-1] == "\n"):
         value = value[:-1]
 
-    print(toUtf8("dialogTextInputBox:%s" % value))
+    print("dialogTextInputBox:%s" % value)
     return value
 
 def fileExists(fileName = ''):
@@ -140,9 +140,9 @@ def formatDateTime(string = '', pack = False):
 
 def fromPercentEncoding(url = ''):
     qurl = QUrl()
-    qurl.setEncodedUrl(toUtf8(url))
-    qurl.setEncodedUrl(toUtf8(qurl.toString()))
-    qurl.setEncodedUrl(toUtf8(qurl.toString()))
+    qurl.setEncodedUrl(url)
+    qurl.setEncodedUrl(qurl.toString())
+    qurl.setEncodedUrl(qurl.toString())
     return toUnicode(qurl.toString())
 
 
@@ -203,32 +203,6 @@ def QStringListToString(stringList = []):
 def toPercentEncoding(url = ''):
     return QUrl.toPercentEncoding(url)
 
-
-def toUtf8(string):
-    try:
-        if vartype(string) == 'QString':
-            return string.toUtf8() # REVISAR: Esto no es coherente con el resto.
-
-        else:
-            return string.encode(gSysEncoding)
-
-    except:
-        return string
-
-
-def toUnicode(string):
-    try:
-
-        if vartype(string) == 'QString':
-            return unicode(str(string.toUtf8()), gSysEncoding)
-
-        if vartype(string) == 'unicode':
-            return string
-
-        return unicode(string, gSysEncoding)
-
-    except:
-        return string
 
 
 def toVariant(value):
