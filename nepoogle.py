@@ -777,15 +777,15 @@ class Nepoogle(QWidget):
                             elif fileExists(url):
                                 dropType = "image"
 
-                if dropType == None:
+                if dropType is None:
                     if url[:13] == "nepomuk:/res/":
                         dropType = "resource"
 
-                if dropType == None:
+                if dropType is None:
                     if ((url[:7] == "http://") or (url[:8] == "https://")):
                         dropType = "url"
 
-                if dropType == None:
+                if dropType is None:
                     if (url[:10] == "propedit:/"):
                         try:
                             ontValue = url[10:].split("&")[1]
