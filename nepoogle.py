@@ -1,43 +1,25 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+import sys
 import gettext
-from PyQt4.QtCore import Qt, SIGNAL
+import subprocess
+
+from PyQt4.QtCore import Qt, SIGNAL, QUrl
 from PyQt4.QtGui import QWidget, QPushButton, QIcon, QLineEdit, QHBoxLayout, QMessageBox, QGridLayout
-from PyQt4.QtWebKit import QWebPage, QWebView
+from PyQt4.QtWebKit import QWebPage
 
 
 from PyKDE4.kdeui import KIconLoader
 from PyKDE4.nepomuk import Nepomuk
 from PyKDE4.soprano import Soprano
-from lglobals import DO_NOT_USE_NEPOMUK, PROGRAM_NAME
+from lglobals import DO_NOT_USE_NEPOMUK, PROGRAM_NAME, DEFAULT_ENGINE, PROGRAM_HTML_POWERED, PROGRAM_URL
+
+from cldataformat import cDataFormat
+from clsparql import cSparqlBuilder
+from chelper import cWebView, hackQueryParser
+from lfunctions import dialogInputBox, dialogList, dialogTextInputBox
 
 _ = gettext.gettext
-
-
-#
-# cWebView class
-#
-class cWebView(QWebView):
-
-    owner = None
-
-    def __init__(self, *args):
-        super(cWebView, self).__init__(*args)
-
-        self.owner = args[0]
-        self.page().setLinkDelegationPolicy(QWebPage.DelegateAllLinks)
-        self.page().setForwardUnsupportedContent(True)
-
-
-    def dragMoveEvent(self, event):
-        if (event.mimeData().hasFormat("text/plain")):
-            event.setAccepted(True)
-
-
-    def dropEvent(self, event):
-        self.owner.dropHandler(event)
-
-
-
 
 
 #
@@ -89,7 +71,7 @@ class Nepoogle(QWidget):
     def __init__(self, parent = None, searchString = '', verboseMode = False, screenRect = None):
         super(Nepoogle, self).__init__(parent)
 
-        if (screenRect != None):
+        if (screenRect is not None):
             self.screenHeight = screenRect.height()
             self.screenWidth = screenRect.width()
 
@@ -162,7 +144,7 @@ class Nepoogle(QWidget):
         self.resize(int((self.screenWidth) / 2), self.screenHeight - 50)
 
         if searchString == '':
-            self.leSearch.setText(toUnicode('Type search here'))
+            self.leSearch.setText('Type search here')
 
         else:
             self.leSearch.setText(searchString)
@@ -176,7 +158,7 @@ class Nepoogle(QWidget):
 
 
     def downloadRequested(self, request):
-        url = toUnicode(request.url().toString())
+        url = request.url().toString()
         if url != "":
             if url[:9] == 'nepomuk:/':
                 pass
@@ -192,8 +174,8 @@ class Nepoogle(QWidget):
                 url = ''
 
             if url != '':
-                print(toUtf8(url))
-                subprocess.Popen([PROGRAM_URL, "--gui", toUtf8(url)])
+                print(url)
+                subproces.Popen([PROGRAM_URL, "--gui", url])
 
 
     def unsupportedContent(self, request):
@@ -201,15 +183,15 @@ class Nepoogle(QWidget):
 
 
     def openLink(self, checked):
-        url = toUnicode(self.wvOutput.page().currentFrame().requestedUrl())
+        url = self.wvOutput.page().currentFrame().requestedUrl()
         if url.toString() != "":
             self.linkClicked(url, True)
 
 
     def openLinkInNewWindow(self, checked):
-        url = toUnicode(self.wvOutput.page().currentFrame().requestedUrl().toString())
+        url = self.wvOutput.page().currentFrame().requestedUrl().toString()
         if url != "":
-            print(toUtf8(url))
+            print(url)
             if url[:9] == 'nepomuk:/':
                 pass
 
@@ -224,7 +206,7 @@ class Nepoogle(QWidget):
                 url = ''
 
             if url != '':
-                subprocess.Popen([PROGRAM_URL, "--gui", toUtf8(url)])
+                subprocess.Popen([PROGRAM_URL, "--gui", url])
 
 
     def loadFinished(self, ok):
@@ -272,7 +254,7 @@ class Nepoogle(QWidget):
                 self.linkClicked(QUrl("navigate:/next"))
 
             elif event.key() == Qt.Key_Delete:
-                uri = toUnicode(self.leSearch.text()).strip()
+                uri = self.leSearch.text().strip()
                 if uri[:13] == 'nepomuk:/res/':
                     self.linkClicked(QUrl("remove:/" + uri))
 
@@ -307,8 +289,8 @@ class Nepoogle(QWidget):
 
 
     def linkClicked(self, url, forceExec = False):
-        url = toUnicode(url.toString())
-        print(toUtf8(url))
+        url = url.toString()
+        print(url)
 
         if url[:11] == "autocover:/":
             uri = url[11:]
@@ -482,7 +464,7 @@ class Nepoogle(QWidget):
 
     def setRating(self, uri = None, rating = None):
         if (uri == None):
-            uri = toUnicode(self.leSearch.text()).strip()
+            uri = self.leSearch.text().strip()
             if not uri[:13] == "nepomuk:/res/":
                 QMessageBox.warning(self, "%s - %s" % (PROGRAM_NAME, _("error")), _("You can only add properties in the Resource Viewer."))
                 return False
@@ -512,7 +494,7 @@ class Nepoogle(QWidget):
 
         elif vartype(rating) == "QString":
             try:
-                rating = int(toUnicode(rating))
+                rating = int(rating)
 
             except:
                 rating = 0
@@ -537,7 +519,7 @@ class Nepoogle(QWidget):
 
     def addProperty(self, uri = None, ontology = "", text = ""):
         if (uri == None):
-            uri = toUnicode(self.leSearch.text()).strip()
+            uri = self.leSearch.text().strip()
 
         if not uri[:13] == "nepomuk:/res/":
             QMessageBox.warning(self, "%s - %s" % (PROGRAM_NAME, _("error")), _("You can only add properties in the Resource Viewer."))
@@ -573,7 +555,7 @@ class Nepoogle(QWidget):
             queryResultSet = self.model.executeQuery(query, Soprano.Query.QueryLanguageSparql)
             if queryResultSet.isValid():
                 while queryResultSet.next():
-                    values += [NOCR(toUnicode(queryResultSet["r"].toString()))]
+                    values += [NOCR(queryResultSet["r"].toString())]
 
             if values != []:
                 parameters = []
@@ -620,7 +602,7 @@ class Nepoogle(QWidget):
 
     def editProperty(self, uri = None, ontology = None):
         if (uri == None):
-            uri = toUnicode(self.leSearch.text()).strip()
+            uri = self.leSearch.text().strip()
 
         if not uri[:13] == "nepomuk:/res/":
             QMessageBox.warning(self, "%s - %s" % (PROGRAM_NAME, _("error")), _("You can only add properties in the Resource Viewer."))
@@ -645,7 +627,7 @@ class Nepoogle(QWidget):
                 # Trying to avoid the two titles bug with this oldItem.
                 oldItem = ""
                 for item in text.toStringList():
-                    item = toUnicode(item)
+                    item = item
                     if item == oldItem:
                         continue
 
@@ -659,7 +641,7 @@ class Nepoogle(QWidget):
                     return False
 
             else:
-                text = toUnicode(resource.property(NOC(ontology)).toString())
+                text = resource.property(NOC(ontology)).toString()
 
             if text[:13] == "nepomuk:/res/":
                 QMessageBox.warning(self, "%s - %s" % (PROGRAM_NAME, _("error")), _("You can't edit resources here, click in the resource and edit directly."))
@@ -721,7 +703,7 @@ class Nepoogle(QWidget):
         queryResultSet = self.model.executeQuery(query, Soprano.Query.QueryLanguageSparql)
         if queryResultSet.isValid():
             while queryResultSet.next():
-                values += [NOCR(toUnicode(queryResultSet["v"].toString()))]
+                values += [NOCR(queryResultSet["v"].toString())]
 
         if values != []:
             resourcesList = []
@@ -731,7 +713,7 @@ class Nepoogle(QWidget):
                         label = cResource(value).genericLabel()
 
                     else:
-                        label = toUnicode(Nepomuk.Resource(value).genericLabel())
+                        label = Nepomuk.Resource(value).genericLabel()
 
                 else:
                     label = value
@@ -790,7 +772,7 @@ class Nepoogle(QWidget):
         # Query para obtener qué puede ser un resource.
         #SELECT * WHERE { ?r rdfs:range %s . }
 
-        uri = toUnicode(self.leSearch.text()).strip()
+        uri = self.leSearch.text().strip()
         if not uri[:13] == "nepomuk:/res/":
             QMessageBox.warning(self, "%s - %s" % (PROGRAM_NAME, _("error")), _("You can only drop data in the Resource Viewer."))
             return False
@@ -798,8 +780,8 @@ class Nepoogle(QWidget):
         if event.mimeData().hasUrls():
             imageReply = resourceReply = None
             for i in range(0, len(event.mimeData().urls())):
-                url = toUnicode(event.mimeData().urls()[i].toString()).strip()
-                print("url: %s" % toUtf8(url))
+                url = event.mimeData().urls()[i].toString().strip()
+                print("url: %s" % url)
 
                 dropType = None
                 if dropType == None:
@@ -849,7 +831,7 @@ class Nepoogle(QWidget):
                         else:
                             msgImagePronoun = "next image"
 
-                        msgImageUrl = "\n\n" + "\n".join([toUnicode(urlItem.toString()) for urlItem in event.mimeData().urls()])
+                        msgImageUrl = "\n\n" + "\n".join([urlItem.toString() for urlItem in event.mimeData().urls()])
                         imageReply = QMessageBox.question(self, _("%s - add data") % PROGRAM_NAME, _("add %s as %s?%s") % (msgImagePronoun, ontologyImages, msgImageUrl), QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
                     if imageReply == QMessageBox.Yes:
@@ -870,7 +852,7 @@ class Nepoogle(QWidget):
                         else:
                             msgImagePronoun = "next image"
 
-                        msgImageUrl = "\n\n" + "\n".join([toUnicode(urlItem.toString()) for urlItem in event.mimeData().urls()])
+                        msgImageUrl = "\n\n" + "\n".join([urlItem.toString() for urlItem in event.mimeData().urls()])
                         urlReply = QMessageBox.question(self, _("%s - add data") % PROGRAM_NAME, _("add %s as %s?%s") % (msgImagePronoun, ontologyUrl, msgImageUrl), QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
                     else:
@@ -920,7 +902,7 @@ class Nepoogle(QWidget):
                     queryResultSet = self.model.executeQuery(query, Soprano.Query.QueryLanguageSparql)
                     if queryResultSet.isValid():
                         while queryResultSet.next():
-                            values += [NOCR(toUnicode(queryResultSet["r"].toString()))]
+                            values += [NOCR(queryResultSet["r"].toString())]
 
                     if values != []:
                         parameters = []
@@ -946,7 +928,7 @@ class Nepoogle(QWidget):
                         QMessageBox.warning(self, "%s - %s" % (PROGRAM_NAME, _("error")), _("Sorry, I don't know what to do with this resource and custom ontologies are not supported yet."))
 
         elif event.mimeData().hasText():
-            text = toUnicode(event.mimeData().text())
+            text = event.mimeData().text()
             if text == "":
                 return False
 
@@ -1273,7 +1255,7 @@ class Nepoogle(QWidget):
 
         searchEngine = DEFAULT_ENGINE
         if searchString == '':
-            searchString = toUnicode(self.leSearch.text().trimmed().toUtf8())
+            searchString = self.leSearch.text().strip()
 
         #if True:
         try:
@@ -1339,11 +1321,11 @@ class Nepoogle(QWidget):
                             externalParameters += [command]
                             processedSearchString = processedSearchString.replace(command, "")
 
-                    query = toUnicode(oNQP.parse(processedSearchString).toSparqlQuery())
+                    query = oNQP.parse(processedSearchString).toSparqlQuery()
                     oNQP = None
                     if (self.verboseMode and sys.stdout.isatty()):
                         # Improve a little bit readability.
-                        print(toUtf8(query.replace(" where ", " WHERE ").replace("{", "{\n").replace("}", "\n}").replace("} .", "} .\n").replace("} UNION {", " } UNION {").replace(". ?", ".\n ?").replace("\n ?", "\n  ?").replace("\n} .", "\n } .").replace("} .\n  ?", "} .\n ?")))
+                        print(query.replace(" where ", " WHERE ").replace("{", "{\n").replace("}", "\n}").replace("} .", "} .\n").replace("} UNION {", " } UNION {").replace(". ?", ".\n ?").replace("\n ?", "\n  ?").replace("\n} .", "\n } .").replace("} .\n  ?", "} .\n ?"))
 
                     query = hackQueryParser(query, 'e0')
                     self.resultData, self.resultStructure, self.resultTime = self.sparql.executeQuery(query)
@@ -1356,12 +1338,12 @@ class Nepoogle(QWidget):
                             externalParameters += [command]
                             processedSearchString = processedSearchString.replace(command, "")
 
-                    query = toUnicode(oNQP.parse(processedSearchString).toSparqlQuery())
+                    query = oNQP.parse(processedSearchString).toSparqlQuery()
                     oNQP = None
                     query = hackQueryParser(query, 'e2')
                     if (self.verboseMode and sys.stdout.isatty()):
                         # Improve a little bit readability.
-                        print(toUtf8(query.replace(" where ", " WHERE ").replace("{", "{\n").replace("}", "\n}").replace("} .", "} .\n").replace("} UNION {", " } UNION {").replace(". ?", ".\n ?").replace("\n ?", "\n  ?").replace("\n} .", "\n } .").replace("} .\n  ?", "} .\n ?")))
+                        print(query.replace(" where ", " WHERE ").replace("{", "{\n").replace("}", "\n}").replace("} .", "} .\n").replace("} UNION {", " } UNION {").replace(". ?", ".\n ?").replace("\n ?", "\n  ?").replace("\n} .", "\n } .").replace("} .\n  ?", "} .\n ?"))
 
                     self.resultData, self.resultStructure, self.resultTime = self.sparql.executeQuery(query)
 

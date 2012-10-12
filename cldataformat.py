@@ -567,7 +567,7 @@ class cDataFormat():
                         if fullname != None:
                             performers += [[itemUri, fullname]]
 
-                performers = sorted(performers, key=lambda item: toUtf8(item[1]))
+                performers = sorted(performers, key=lambda item: item[1])
                 if performers == oldPerformers:
                     performers = []
 
@@ -613,7 +613,7 @@ class cDataFormat():
                                 if fullname != None:
                                     albumArtists += [[itemUri, fullname]]
 
-                        albumArtists = sorted(albumArtists, key=lambda item: toUtf8(item[1]))
+                        albumArtists = sorted(albumArtists, key=lambda item: item[1])
                         linkAlbumArtists = ""
                         for artist in albumArtists:
                             if linkAlbumArtists != "":
@@ -758,7 +758,7 @@ class cDataFormat():
             playList += [[item[1], i, url, trackName, sortColumn]]
             i += 1
 
-        playList = sorted(playList, key=lambda item: toUtf8(item[4]))
+        playList = sorted(playList, key=lambda item: item[4])
         url = playList[0][2]
         if url[:7] == "file://":
             url = url[7:]
@@ -877,7 +877,7 @@ class cDataFormat():
 
             output += "</script>\n"
 
-            #print '<html>\n<body>\n' + toUtf8(output) + '\n</body>\n</html>'
+            #print '<html>\n<body>\n' + output + '\n</body>\n</html>'
 
             output += "<br /></div>\n"
 
@@ -938,7 +938,7 @@ class cDataFormat():
                 line += ", Unknown"
 
             if line != '':
-                print(toUtf8(line))
+                print(line)
                 #text += line + '\n'
 
         return text
@@ -1580,7 +1580,7 @@ class cDataFormat():
                     resource = Nepomuk.Resource(QUrl(item[0]))
 
                 if resource.hasProperty(nieUrl):
-                    url = fromPercentEncoding(toUnicode(resource.property(nieUrl).toString().toUtf8()))
+                    url = fromPercentEncoding(toUnicode(resource.property(nieUrl).toString()))
                     ext = os.path.splitext(url)[1][1:].lower()
                     if ((ext != '') and fileExists(url)):
                         if ext in self.supportedImageFormats:
@@ -1628,7 +1628,7 @@ class cDataFormat():
                     + self.htmlFooter
 
         if stdout:
-            print toUtf8(output)
+            print output
 
         self.renderedDataText = output
 
@@ -1644,7 +1644,7 @@ class cDataFormat():
                     "\t<" + uri + "> ?ont ?val ; nao:userVisible 1 .\n"\
                 "}\n"
         if stdout:
-            print toUtf8(query)
+            print query
 
         script = ""
         if self.enableImageViewer:
@@ -2075,7 +2075,7 @@ class cDataFormat():
                     + self.htmlFooter
 
         if stdout:
-            print toUtf8(output)
+            print output
 
         self.renderedDataText = output
 

@@ -23,6 +23,7 @@
 #*   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.         *
 #***************************************************************************
 
+from __future__ import unicode_literals
 import datetime, gettext, md5, os, re, signal, subprocess, sys, time
 
 import sip
@@ -99,31 +100,6 @@ from lfunctions import *
 from clsparql import *
 
 from cldataformat import *
-
-
-def hackQueryParser(query = '', hackLevel = 'e2'):
-
-    if query.find("?v7 ") == -1:
-        # Don't change queries with only one item.
-        return query
-
-    if hackLevel.lower() == 'e2':
-        query = query.replace(' ?r <http://www.semanticdesktop.org/ontologies/2007/08/15/nao#userVisible> ?v1 . FILTER(?v1>0) .', '')
-        query = query.replace(' UNION { ?r ', ' UNION { ?0 ')
-        query = query.replace(' { ?r ', ' { SELECT ?r WHERE { { ?r <http://www.semanticdesktop.org/ontologies/2007/08/15/nao#userVisible> 1 . ?r ')
-        query = query.replace(' UNION { ?0 ', ' UNION { ?r ')
-        query = query.replace(' } .', '}}} .')
-        query = query.replace('.}}} .}}} . }', '. }}} . }')
-
-        # Removing ?_n_f_t_m_ex_ field to avoid duplicates in the result.
-        query = "SELECT DISTINCT ?r " + query[query.find("where"):]
-        query = query.replace('SELECT DISTINCT ?r where { { { ', 'SELECT DISTINCT ?r WHERE { { ')
-
-    elif hackLevel.lower() == 'e0':
-        # Removing ?_n_f_t_m_ex_ field to avoid duplicates in the result.
-        query = "SELECT DISTINCT ?r " + query[query.find("where"):]
-
-    return query
 
 
 def buildHelp():
@@ -273,7 +249,7 @@ def main(args):
             searchEngine = int(searchString[1:2])
 
         output = "%(title)s\n" % {'title': 'Querying Nepomuk' }
-        print(toUtf8(output))
+        print(output)
 
         #if True:
         try:
@@ -287,7 +263,7 @@ def main(args):
                     oNQP = None
                     if verboseMode:
                         # Improve a little bit readability.
-                        print(toUtf8(query.replace(" where ", "\nwhere ").replace("{", "{\n").replace("}", "\n}").replace("} .", "} .\n").replace("} UNION {", " } UNION {").replace(". ?", ".\n ?").replace("\n ?", "\n  ?").replace("\n} .", "\n } .").replace("} .\n  ?", "} .\n ?")))
+                        print(query.replace(" where ", "\nwhere ").replace("{", "{\n").replace("}", "\n}").replace("} .", "} .\n").replace("} UNION {", " } UNION {").replace(". ?", ".\n ?").replace("\n ?", "\n  ?").replace("\n} .", "\n } .").replace("} .\n  ?", "} .\n ?"))
 
                     query = hackQueryParser(query, 'e0')
                     data, structure, time = oSparql.executeQuery(query)
@@ -299,7 +275,7 @@ def main(args):
                     query = hackQueryParser(query, 'e2')
                     if verboseMode:
                         # Improve a little bit readability.
-                        print(toUtf8(query.replace(" where ", "\nwhere ").replace("{", "{\n").replace("}", "\n}").replace("} .", "} .\n").replace("} UNION {", " } UNION {").replace(". ?", ".\n ?").replace("\n ?", "\n  ?").replace("\n} .", "\n } .").replace("} .\n  ?", "} .\n ?")))
+                        print(query.replace(" where ", "\nwhere ").replace("{", "{\n").replace("}", "\n}").replace("} .", "} .\n").replace("} UNION {", " } UNION {").replace(". ?", ".\n ?").replace("\n ?", "\n  ?").replace("\n} .", "\n } .").replace("} .\n  ?", "} .\n ?"))
 
                     data, structure, time = oSparql.executeQuery(query)
 
@@ -345,7 +321,7 @@ def main(args):
                 warningsList = []
 
                 if warningMsg != "":
-                    output += '\n\nWARNING: ' + toUtf8(warningMsg)
+                    output += '\n\nWARNING: ' + warningMsg
 
             else:
                 raise Exception('Please, type something.')
@@ -380,7 +356,7 @@ def main(args):
                                 'date': PROGRAM_VERSION_DATE \
                                 }
 
-        print(toUtf8(output))
+        print(output)
 
 
 if __name__=="__main__":
