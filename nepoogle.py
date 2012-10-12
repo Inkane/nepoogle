@@ -992,22 +992,22 @@ class Nepoogle(QWidget):
                 info += ' (using optionals to negate)'
 
             shortcuts += '<tr><td><b>%(abr)s</b>, <b>%(shortcut)s</b>:</td><td><em>%(ontology)s</em>%(info)s</td></tr>\n' \
-                                % {'abr': shortcut[2], 'shortcut': shortcut[1], 'ontology': fmtOntology, 'info': info}
+                         % {'abr': shortcut[2], 'shortcut': shortcut[1], 'ontology': fmtOntology, 'info': info}
 
         shortcuts += self.htmlTableFooter + '</ul></p>\n'
 
         remarks = "<p><b>Remarks</b>:<br \>\n" \
-                    "<ul>\n" \
-                    "<li>This program was tested on <b>KDE 4.8.4</b>." \
-                    "<li>Nepomuk search api is available using e0 or e2 as prefix.</li>\n" \
-                    "<li><b>Virtuoso 6.1.4</b> or greater is required to use Nepomuk search api.</li>\n" \
-                    "<li>Query syntax is inspired in Google's search syntax.</li>\n" \
-                    "<li>Nepoogle do a text search in identifiers, descriptions, tags, fullnames, titles and urls.</li>\n" \
-                    "<li>Parenthesis for group queries are not supported.</li>\n" \
-                    "<li>You can use regular expressions searching strings.</li>\n" \
-                    "<li>Nepoogle's own engine works with Soprano and don't uses Nepomuk to do queries.</li>\n" \
-                    "<li>Be cautious, certain ontologies combinations in a same query may offer 0 results.</li>\n" \
-                    "</ul></p>\n" \
+                  "<ul>\n" \
+                  "<li>This program was tested on <b>KDE 4.8.4</b>." \
+                  "<li>Nepomuk search api is available using e0 or e2 as prefix.</li>\n" \
+                  "<li><b>Virtuoso 6.1.4</b> or greater is required to use Nepomuk search api.</li>\n" \
+                  "<li>Query syntax is inspired in Google's search syntax.</li>\n" \
+                  "<li>Nepoogle do a text search in identifiers, descriptions, tags, fullnames, titles and urls.</li>\n" \
+                  "<li>Parenthesis for group queries are not supported.</li>\n" \
+                  "<li>You can use regular expressions searching strings.</li>\n" \
+                  "<li>Nepoogle's own engine works with Soprano and don't uses Nepomuk to do queries.</li>\n" \
+                  "<li>Be cautious, certain ontologies combinations in a same query may offer 0 results.</li>\n" \
+                  "</ul></p>\n" \
 
         commandsList = ''
         for command in oSparqlBuilder.commands:
@@ -1026,117 +1026,116 @@ class Nepoogle(QWidget):
                 shortcutsList += shortcut[1]
 
         syntax = "<p><b>The query syntax is</b>:<ul>\n" \
-                    "<em>query</em> :== e0 querystring<sup>1)</sup><br />\n"\
-                    "<em>query</em> :== e2 querystring<sup>2)</sup><br />\n"\
-                    "<br />\n" \
-                    "<em>query</em> :== [e1] item [[logop] item]... | command | uri<br />\n"\
-                    "<br />\n" \
-                    "<em>logop</em> :== and | or<br />\n" \
-                    "<em>compop</em> :==  = | < | <= | > | >=<br />\n" \
-                    "<em>op</em> :== + | - | compop<br />\n" \
-                    "<br />\n" \
-                    "<em>item</em> :== [ontology:][op]text | &lt;ontology&gt;&lt;op&gt;&lt;text&gt;<br />\n" \
-                    "<br />\n" \
-                    "<em>ontology</em> :== [ontitem=]ontitem[->[ontitem=]ontitem]]...<br />\n" \
-                    "<em>ontitem</em> :== shortcutontology | shortontology | fullontology<br />\n" \
-                    "<em>shortcutontology</em> :== %(shortcuts)s<br />\n" \
-                    "<em>shortontology</em> :== prefix:name<br />\n" \
-                    "<em>fullontology</em> :== &lt;http://fullurl&gt;<br />\n" \
-                    "<br />\n" \
-                    "<em>text</em> :== date | number | string | time<br />\n" \
-                    "<em>date</em> :== yyyy-mm-dd | month | day | year<br />\n" \
-                    "<em>month</em> :== 1..12[m]<br />\n" \
-                    "<em>day</em> :== 13..31 | 1..31d<br />\n" \
-                    "<em>year</em> :== 31..9999 | 1..9999y<br />\n" \
-                    "<em>number</em> :== posnumber | negnumber | fraction<br />\n" \
-                    "<em>posnumber</em> :== 0..9<br />\n" \
-                    "<em>negnumber</em> :== compop-0..9<br />\n" \
-                    "<em>fraction</em> :== posnumber/posnumber | negnumber/posnumber<br />\n" \
-                    "<em>string</em> :== chars | \"chars\" | 'chars'<br />\n" \
-                    "<em>chars</em> :== any number of utf-8 characters<br />\n" \
-                    "<em>time</em> :== hh:mm:ss | hour | minute | seconds<br />\n" \
-                    "<em>hour</em> :== 1..24[h]<br />\n" \
-                    "<em>minute</em> :== 25..60 | 1..60m<br />\n" \
-                    "<em>seconds</em> :== 1..60s<br />\n" \
-                    "<br />\n" \
-                    "<em>command</em> :== instruction[:string]<br />\n" \
-                    "<em>instruction</em> :== %(instructions)s<br />\n" \
-                    "<br />\n" \
-                    "<sup>1)</sup>e0 uses <a href=\"http://api.kde.org/4.x-api/kdelibs-apidocs/nepomuk-core/html/classNepomuk_1_1Query_1_1QueryParser.html\">Nepomuk::Query::QueryParser()</a> and it has its own query syntax.<br />" \
-                    "<sup>2)</sup>e2 uses a hacked version of <a href=\"http://api.kde.org/4.x-api/kdelibs-apidocs/nepomuk-core/html/classNepomuk_1_1Query_1_1QueryParser.html\">Nepomuk::Query::QueryParser()</a> optimized with subqueries.<br />" \
-                    "</ul>" \
-                    "</p>\n" \
-                    % {'shortcuts': shortcutsList, 'instructions': commandsList}
+                 "<em>query</em> :== e0 querystring<sup>1)</sup><br />\n"\
+                 "<em>query</em> :== e2 querystring<sup>2)</sup><br />\n"\
+                 "<br />\n" \
+                 "<em>query</em> :== [e1] item [[logop] item]... | command | uri<br />\n"\
+                 "<br />\n" \
+                 "<em>logop</em> :== and | or<br />\n" \
+                 "<em>compop</em> :==  = | < | <= | > | >=<br />\n" \
+                 "<em>op</em> :== + | - | compop<br />\n" \
+                 "<br />\n" \
+                 "<em>item</em> :== [ontology:][op]text | &lt;ontology&gt;&lt;op&gt;&lt;text&gt;<br />\n" \
+                 "<br />\n" \
+                 "<em>ontology</em> :== [ontitem=]ontitem[->[ontitem=]ontitem]]...<br />\n" \
+                 "<em>ontitem</em> :== shortcutontology | shortontology | fullontology<br />\n" \
+                 "<em>shortcutontology</em> :== %(shortcuts)s<br />\n" \
+                 "<em>shortontology</em> :== prefix:name<br />\n" \
+                 "<em>fullontology</em> :== &lt;http://fullurl&gt;<br />\n" \
+                 "<br />\n" \
+                 "<em>text</em> :== date | number | string | time<br />\n" \
+                 "<em>date</em> :== yyyy-mm-dd | month | day | year<br />\n" \
+                 "<em>month</em> :== 1..12[m]<br />\n" \
+                 "<em>day</em> :== 13..31 | 1..31d<br />\n" \
+                 "<em>year</em> :== 31..9999 | 1..9999y<br />\n" \
+                 "<em>number</em> :== posnumber | negnumber | fraction<br />\n" \
+                 "<em>posnumber</em> :== 0..9<br />\n" \
+                 "<em>negnumber</em> :== compop-0..9<br />\n" \
+                 "<em>fraction</em> :== posnumber/posnumber | negnumber/posnumber<br />\n" \
+                 "<em>string</em> :== chars | \"chars\" | 'chars'<br />\n" \
+                 "<em>chars</em> :== any number of utf-8 characters<br />\n" \
+                 "<em>time</em> :== hh:mm:ss | hour | minute | seconds<br />\n" \
+                 "<em>hour</em> :== 1..24[h]<br />\n" \
+                 "<em>minute</em> :== 25..60 | 1..60m<br />\n" \
+                 "<em>seconds</em> :== 1..60s<br />\n" \
+                 "<br />\n" \
+                 "<em>command</em> :== instruction[:string]<br />\n" \
+                 "<em>instruction</em> :== %(instructions)s<br />\n" \
+                 "<br />\n" \
+                 "<sup>1)</sup>e0 uses <a href=\"http://api.kde.org/4.x-api/kdelibs-apidocs/nepomuk-core/html/classNepomuk_1_1Query_1_1QueryParser.html\">Nepomuk::Query::QueryParser()</a> and it has its own query syntax.<br />" \
+                 "<sup>2)</sup>e2 uses a hacked version of <a href=\"http://api.kde.org/4.x-api/kdelibs-apidocs/nepomuk-core/html/classNepomuk_1_1Query_1_1QueryParser.html\">Nepomuk::Query::QueryParser()</a> optimized with subqueries.<br />" \
+                 "</ul>" \
+                 "</p>\n" \
+                 % {'shortcuts': shortcutsList, 'instructions': commandsList}
 
         examples = "<p><b>Examples</b>:\n" \
-                    + self.htmlTableHeader % {'border': 1, 'cellpadding': 2} + \
-                    "<tr><td><b>query</b></td>\n" \
-                        "<td><b>result</b></td></tr>\n" \
-                    "<tr><td><em>movie</em></td>\n" \
-                        "<td>contains word 'movie'</td></tr>\n" \
-                    "<tr><td><em>+movie</em></td>\n" \
-                        "<td>equals word 'movie'</td></tr>\n" \
-                    "<tr><td><em>-movie</em></td>\n" \
-                        "<td>not contains word 'movie'</td></tr>\n" \
-                    "<tr><td><em>hastag:-dorama +'takeuchi yuuko' 'hiroshi'</em></td>\n" \
-                        "<td>not tagged as 'dorama' and equals 'takeuchi yuuko' and contains 'hiroshi'</td></tr>\n" \
-                    "<tr><td><em>movie or hasTag:'takeuchi yuuko'</em></td>\n" \
-                        "<td>contains movie or tagged 'takeuchi yuuko'</td></tr>\n" \
-                    "<tr><td><em>hasTag:+movie rating:>=5</em></td>\n" \
-                        "<td>tagged exactly 'movie' and rating >= 5</td></tr>\n" \
-                    "<tr><td><em>url:\"^file:///media\" mimetype:image mimetype:-image/jpeg</em></td>\n" \
-                        "<td>all image files, except jpegs, located in /media</td></tr>\n" \
-                    "<tr><td><em>mimetype:image/png height:>=1200 width:>=1600</em></td>\n" \
-                        "<td>all pngs with a resolution great or equal to 1600x1200</td></tr>\n" \
-                    "<tr><td><em>playcount:0 hastag:corea genre:drama actor:+'Yeong-ae Lee' director:Park</em></td>\n" \
-                        "<td>not played movie dramas tagged 'corea' with actress 'Yeong-ae Lee' and with director name contains 'Park'</td></tr>\n" \
-                    "<tr><td><em>actor:'Zhang Ziyi' and actor:-'Bingbing Fan'</em></td>\n" \
-                        "<td>movies with actress 'Zhang Ziyi' but without actress 'Bingbing Fan'</td></tr>\n" \
-                    "<tr><td><em>tvshow:Coupling season:2 episode:4</em></td>\n" \
-                        "<td>Episode 4 of Season 2 of Coupling</td></tr>\n" \
-                    "<tr><td><em>--tags</em></td>\n" \
-                        "<td>all tags</td></tr>\n" \
-                    "<tr><td><em>--actors:luppi</em></td>\n" \
-                        "<td>all actors containing 'luppi'</td></tr>\n" \
-                    + self.htmlTableFooter + \
-                    "</p>\n"
+                   + self.htmlTableHeader % {'border': 1, 'cellpadding': 2} + \
+                   "<tr><td><b>query</b></td>\n" \
+                   "<td><b>result</b></td></tr>\n" \
+                   "<tr><td><em>movie</em></td>\n" \
+                   "<td>contains word 'movie'</td></tr>\n" \
+                   "<tr><td><em>+movie</em></td>\n" \
+                   "<td>equals word 'movie'</td></tr>\n" \
+                   "<tr><td><em>-movie</em></td>\n" \
+                   "<td>not contains word 'movie'</td></tr>\n" \
+                   "<tr><td><em>hastag:-dorama +'takeuchi yuuko' 'hiroshi'</em></td>\n" \
+                   "<td>not tagged as 'dorama' and equals 'takeuchi yuuko' and contains 'hiroshi'</td></tr>\n" \
+                   "<tr><td><em>movie or hasTag:'takeuchi yuuko'</em></td>\n" \
+                   "<td>contains movie or tagged 'takeuchi yuuko'</td></tr>\n" \
+                   "<tr><td><em>hasTag:+movie rating:>=5</em></td>\n" \
+                   "<td>tagged exactly 'movie' and rating >= 5</td></tr>\n" \
+                   "<tr><td><em>url:\"^file:///media\" mimetype:image mimetype:-image/jpeg</em></td>\n" \
+                   "<td>all image files, except jpegs, located in /media</td></tr>\n" \
+                   "<tr><td><em>mimetype:image/png height:>=1200 width:>=1600</em></td>\n" \
+                   "<td>all pngs with a resolution great or equal to 1600x1200</td></tr>\n" \
+                   "<tr><td><em>playcount:0 hastag:corea genre:drama actor:+'Yeong-ae Lee' director:Park</em></td>\n" \
+                   "<td>not played movie dramas tagged 'corea' with actress 'Yeong-ae Lee' and with director name contains 'Park'</td></tr>\n" \
+                   "<tr><td><em>actor:'Zhang Ziyi' and actor:-'Bingbing Fan'</em></td>\n" \
+                   "<td>movies with actress 'Zhang Ziyi' but without actress 'Bingbing Fan'</td></tr>\n" \
+                   "<tr><td><em>tvshow:Coupling season:2 episode:4</em></td>\n" \
+                   "<td>Episode 4 of Season 2 of Coupling</td></tr>\n" \
+                   "<tr><td><em>--tags</em></td>\n" \
+                   "<td>all tags</td></tr>\n" \
+                   "<tr><td><em>--actors:luppi</em></td>\n" \
+                   "<td>all actors containing 'luppi'</td></tr>\n" \
+                   + self.htmlTableFooter + \
+                   "</p>\n"
 
         output = "<html>\n  <head>\n"\
-                    "<style type=\"text/css\">" \
-                    "body {%(body_style)s}\n" \
-                    "p {%(p_style)s}\n" \
-                    "ul {%(ul_style)s}\n" \
-                    "li {%(li_style)s}\n" \
-                    "tr {%(tr_style)s}\n" \
-                    "</style>\n" \
-                    "<title>%(title)s</title>\n    " \
-                    "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" \
-                    "\n  </head>\n<body>\n" \
-                    "<p><h3>%(program)s's help</h3></p>\n" \
-                    "<p><b>%(program)s</b> is a system to query the <em>Nepomuk's database</em>. <b>%(program)s</b> does not search the file system so that only returns results that are pre-collected in <em>Nepomuk's database</em>.</p>\n" \
-                    "<p><b>Warning!:</b> since <b>%(program)s 0.9.4</b> resources can be edited using dialog forms and/or drag&amp;drop but this features are <em>not fully tested and may contain bugs</em>. Please, <em>be cautious</em> using edition capabilities!</p>\n" \
-                    "%(examples)s" \
-                    "%(remarks)s" \
-                    "%(shortcuts)s" \
-                    "%(commands)s" \
-                    "%(syntax)s" \
-                    "For bugs, suggestions or wishes send a mail to kde@aynoa.net\n" \
-                    "%(powered)s</body>\n</html>" \
-                    % {'title': 'Querying Nepomuk', \
-                        'error': sys.exc_info()[1], \
-                        'program': os.path.basename(sys.argv[0]), \
-                        'powered': PROGRAM_HTML_POWERED, \
-                        'remarks': remarks, \
-                        'syntax': syntax, \
-                        'shortcuts': shortcuts, \
-                        'commands': commands, \
-                        'examples': examples, \
-                        'body_style': "font-size:small", \
-                        'p_style': "font-size:small", \
-                        'ul_style': "font-size:small", \
-                        'li_style': "font-size:small", \
-                        'tr_style': "font-size:small;" \
-                        }
+                "<style type=\"text/css\">" \
+                "body {%(body_style)s}\n" \
+                "p {%(p_style)s}\n" \
+                "ul {%(ul_style)s}\n" \
+                "li {%(li_style)s}\n" \
+                "tr {%(tr_style)s}\n" \
+                "</style>\n" \
+                "<title>%(title)s</title>\n    " \
+                "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" \
+                "\n  </head>\n<body>\n" \
+                "<p><h3>%(program)s's help</h3></p>\n" \
+                "<p><b>%(program)s</b> is a system to query the <em>Nepomuk's database</em>. <b>%(program)s</b> does not search the file system so that only returns results that are pre-collected in <em>Nepomuk's database</em>.</p>\n" \
+                "<p><b>Warning!:</b> since <b>%(program)s 0.9.4</b> resources can be edited using dialog forms and/or drag&amp;drop but this features are <em>not fully tested and may contain bugs</em>. Please, <em>be cautious</em> using edition capabilities!</p>\n" \
+                "%(examples)s" \
+                "%(remarks)s" \
+                "%(shortcuts)s" \
+                "%(commands)s" \
+                "%(syntax)s" \
+                "For bugs, suggestions or wishes send a mail to kde@aynoa.net\n" \
+                "%(powered)s</body>\n</html>" \
+                % {'title': 'Querying Nepomuk',
+                'error': sys.exc_info()[1],
+                'program': os.path.basename(sys.argv[0]),
+                'powered': PROGRAM_HTML_POWERED,
+                'remarks': remarks,
+                'syntax': syntax,
+                'shortcuts': shortcuts,
+                'commands': commands,
+                'examples': examples,
+                'body_style': "font-size:small",
+                'p_style': "font-size:small",
+                'ul_style': "font-size:small",
+                'li_style': "font-size:small",
+                'tr_style': "font-size:small;"}
 
         return output
 
