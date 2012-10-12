@@ -17,7 +17,7 @@ from lglobals import DO_NOT_USE_NEPOMUK, PROGRAM_NAME, DEFAULT_ENGINE, PROGRAM_H
 from cldataformat import cDataFormat
 from clsparql import cSparqlBuilder
 from chelper import cWebView, hackQueryParser
-from lfunctions import dialogInputBox, dialogList, dialogTextInputBox, lindex
+from lfunctions import dialogInputBox, dialogList, dialogTextInputBox, lindex, vartype
 
 _ = gettext.gettext
 
@@ -358,7 +358,6 @@ class Nepoogle(QWidget):
                 if self.keyModifiers == Qt.NoModifier:
                     self.addProperty(uri[0], uri[1])
 
-
                 elif self.keyModifiers == Qt.ShiftModifier:
                     self.editProperty(uri[0], uri[1])
 
@@ -384,8 +383,8 @@ class Nepoogle(QWidget):
 
             self.leSearch.setText(tmpUrl)
             self.pendingQuery = True
-            self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>' \
-                                    % self.iconProcessIdle)
+            self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>'
+                                  % self.iconProcessIdle)
             if forceExec:
                 self.execQuery()
                 self.pendingQuery = False
@@ -400,17 +399,16 @@ class Nepoogle(QWidget):
                 resource.remove()
                 self.pendingQuery = True
                 self.queryMethod = "refresh"
-                self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>' \
-                                        % self.iconProcessIdle)
+                self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>'
+                                      % self.iconProcessIdle)
                 if forceExec:
                     self.execQuery()
                     self.pendingQuery = False
 
-
         elif url[:8] == 'render:/':
             self.leSearch.readOnly = True
-            self.wvOutput.setHtml('<html><body><h3>Rendering... <img src="file://%s"></h3></body></html>' \
-                                    % self.iconProcessIdle)
+            self.wvOutput.setHtml('<html><body><h3>Rendering... <img src="file://%s"></h3></body></html>'
+                                  % self.iconProcessIdle)
             self.wvOutput.repaint()
             self.setCursor(Qt.BusyCursor)
             self.repaint()
@@ -442,13 +440,11 @@ class Nepoogle(QWidget):
             # Seems like there is a problem with character ?.
             subprocess.Popen(["kioclient", "exec", url.replace("?", "%3F")])
 
-
         # Clear always modifiers because the next keypress could happen in other window.
         self.keyModifiers = Qt.NoModifier
 
-
-    def setRating(self, uri = None, rating = None):
-        if (uri == None):
+    def setRating(self, uri=None, rating=None):
+        if (uri is None):
             uri = self.leSearch.text().strip()
             if not uri[:13] == "nepomuk:/res/":
                 QMessageBox.warning(self, "%s - %s" % (PROGRAM_NAME, _("error")), _("You can only add properties in the Resource Viewer."))
