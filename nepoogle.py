@@ -17,7 +17,7 @@ from lglobals import DO_NOT_USE_NEPOMUK, PROGRAM_NAME, DEFAULT_ENGINE, PROGRAM_H
 from cldataformat import cDataFormat
 from clsparql import cSparqlBuilder
 from chelper import cWebView, hackQueryParser
-from lfunctions import dialogInputBox, dialogList, dialogTextInputBox
+from lfunctions import dialogInputBox, dialogList, dialogTextInputBox, lindex
 
 _ = gettext.gettext
 
@@ -297,8 +297,8 @@ class Nepoogle(QWidget):
             if reply == QMessageBox.Yes:
                 subprocess.Popen(['kioclient', 'move', url[8:], 'trash:/'])
                 self.pendingQuery = True
-                self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>' \
-                                        % self.iconProcessIdle)
+                self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>'
+                                      % self.iconProcessIdle)
                 if forceExec:
                     self.execQuery()
                     self.pendingQuery = False
@@ -318,7 +318,7 @@ class Nepoogle(QWidget):
                 return True
 
             idx = lindex(self.navigationData, self.leSearch.text(), 0)
-            if idx != None:
+            if idx is not None:
                 navigateTo = url[10:].lower()
                 if navigateTo == "first":
                     idx = 0
@@ -334,14 +334,13 @@ class Nepoogle(QWidget):
                 elif navigateTo == "last":
                     idx = len(self.navigationData) - 1
 
-
                 self.linkClicked(QUrl(self.navigationData[idx][0]), False)
 
         elif url[:9] == 'nepomuk:/':
             self.leSearch.setText(url)
             self.pendingQuery = True
-            self.wvOutput.setHtml('<html><body><h3>Reading... <img src="file://%s"></h3></body></html>' \
-                                    % self.iconProcessIdle)
+            self.wvOutput.setHtml('<html><body><h3>Reading... <img src="file://%s"></h3></body></html>'
+                                  % self.iconProcessIdle)
             if forceExec:
                 self.execQuery()
                 self.pendingQuery = False
