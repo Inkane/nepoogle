@@ -34,6 +34,8 @@ API_VERSION = 2
 for name in API_NAMES:
     sip.setapi(name, API_VERSION)
 
+from PyQt4.QtGui import QApplication, QDesktopWidget
+
 #from PyKDE4.kdecore import ki18n, i18n, KCmdLineArgs, KAboutData
 #from PyKDE4.kdeui import KApplication, KXmlGuiWindow, KStandardAction, KAction, KIcon
 #from PyKDE4.kdecore import *
@@ -85,25 +87,25 @@ for name in API_NAMES:
 #TODO: todo en html para que pueda ser un servidor.
 
 from nepoogle import Nepoogle
-from lglobals import DEFAULT_ENGINE
+from lglobals import DEFAULT_ENGINE, PROGRAM_VERSION_DATE, PROGRAM_VERSION_VERSION, PROGRAM_NAME
 
 _ = gettext.gettext
 
 
 def buildHelp():
     print("%(name)s %(version)s (%(date)s)\n"
-              % {'name': PROGRAM_NAME, 'version': PROGRAM_VERSION_VERSION, 'date': PROGRAM_VERSION_DATE})
+          % {'name': PROGRAM_NAME, 'version': PROGRAM_VERSION_VERSION, 'date': PROGRAM_VERSION_DATE})
 
-    print("Usage: %s [command ] [query]\n" \
-          "\n" \
-          "commands:\n" \
-          "  --help           -- Shows this help\n" \
-          "  --gui[=MODE]     -- Mode: ON, OFF, force gui mode (defaults ON)\n" \
-          "  --results[=MODE] -- Mode: ON, OFF, displays results in console mode (defaults ON)\n" \
-          "  --verbose[=MODE] -- Mode: ON, OFF (defaults ON with --gui parameter)\n" \
-          "\n" \
-          "query:\n" \
-          "  Query syntax documentation is available in the gui mode help\n" \
+    print("Usage: %s [command ] [query]\n"
+          "\n"
+          "commands:\n"
+          "  --help           -- Shows this help\n"
+          "  --gui[=MODE]     -- Mode: ON, OFF, force gui mode (defaults ON)\n"
+          "  --results[=MODE] -- Mode: ON, OFF, displays results in console mode (defaults ON)\n"
+          "  --verbose[=MODE] -- Mode: ON, OFF (defaults ON with --gui parameter)\n"
+          "\n"
+          "query:\n"
+          "  Query syntax documentation is available in the gui mode help\n"
           % PROGRAM_NAME)
 
 
@@ -136,7 +138,6 @@ def main(args):
     gui = not sys.stdout.isatty()
     verboseMode = None
     parameters = ''
-    paramOption = ""
     for i in range(1, len(args)):
         parameter = args[i].strip()
 
@@ -162,7 +163,7 @@ def main(args):
         elif parameter.lower()[:9] == '--verbose':
             paramValue = parameter.lower()[9:]
             if paramValue == '':
-                if verboseMode == None:
+                if verboseMode is None:
                     verboseMode = True
 
             elif paramValue == '=on':
@@ -181,7 +182,7 @@ def main(args):
         elif parameter.lower()[:9] == '--results':
             paramValue = parameter.lower()[9:]
             if paramValue == '':
-                if verboseMode == None:
+                if verboseMode is None:
                     displayResults = True
 
             elif paramValue == '=on':
@@ -200,7 +201,7 @@ def main(args):
         elif parameter.find(' ') >= 0:
             j = parameter.rfind(':')
             if j >= 0:
-                parameter = parameter[:j+1] + '"' + parameter[j+1:] + '"'
+                parameter = parameter[:j + 1] + '"' + parameter[j + 1:] + '"'
 
             else:
                 parameter = '"' + parameter + '"'
@@ -209,7 +210,7 @@ def main(args):
 
     searchString = parameters.strip()
     if gui:
-        if verboseMode == None:
+        if verboseMode is None:
             verboseMode = gui
 
         #app = KApplication()
@@ -229,8 +230,8 @@ def main(args):
         sys.exit(app.exec_())
 
     else:
-        if verboseMode == None:
-            verboseMode == False
+        if verboseMode is None:
+            verboseMode = False
 
         searchEngine = DEFAULT_ENGINE
         if searchString[:3].lower() in ('e0 ', 'e1 ', 'e2 '):
