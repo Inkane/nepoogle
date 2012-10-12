@@ -805,7 +805,7 @@ class Nepoogle(QWidget):
                     if (i == 0):
                         parameters = [ONTOLOGY_SYMBOL, ONTOLOGY_SYMBOL, "off", ONTOLOGY_SYMBOL_CONTACT, ONTOLOGY_SYMBOL_CONTACT, "off", "nfo:depiction", "nfo:depiction", "on", ONTOLOGY_MUSIC_ALBUM_COVER, ONTOLOGY_MUSIC_ALBUM_COVER, "off"]
                         ontologyImages, labelImages = dialogList(parameters, _("Select an ontology:"))
-                        if ((ontologyImages == None) or (ontologyImages == "")):
+                        if ((ontologyImages is None) or (ontologyImages == "")):
                             continue
 
                         if (len(event.mimeData().urls()) > 1):
@@ -826,7 +826,7 @@ class Nepoogle(QWidget):
                     if dropType == "url_image":
                         parameters = [ONTOLOGY_LINK, ONTOLOGY_LINK, "on", ONTOLOGY_SYMBOL, ONTOLOGY_SYMBOL, "off", ONTOLOGY_SYMBOL_CONTACT, ONTOLOGY_SYMBOL_CONTACT, "off", "nfo:depiction", "nfo:depiction", "off", ONTOLOGY_MUSIC_ALBUM_COVER, ONTOLOGY_MUSIC_ALBUM_COVER, "off"]
                         ontologyUrl, labelUrl = dialogList(parameters, _("Select an ontology:"))
-                        if ((ontologyUrl == None) or (ontologyUrl == "")):
+                        if ((ontologyUrl is None) or (ontologyUrl == "")):
                             continue
 
                         if (len(event.mimeData().urls()) > 1):
@@ -855,7 +855,7 @@ class Nepoogle(QWidget):
                         mustRefresh = SLEEP_AFTER_UPDATE
 
                 else:
-                    if self.model == None:
+                    if self.model is None:
                         return False
 
                     if INTERNAL_RESOURCE:
@@ -897,7 +897,7 @@ class Nepoogle(QWidget):
                                 status = "off"
 
                         ontologyResource, labelResource = dialogList(parameters, _("Select an ontology:"))
-                        if ((ontologyResource == None) or (ontologyResource == "")):
+                        if ((ontologyResource is None) or (ontologyResource == "")):
                             continue
 
                         resourceReply = QMessageBox.question(self, '%s - add resource' % PROGRAM_NAME, "Add \"%s\" as \"%s\"?" % (resourceGenericLabel, ontologyResource), QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
@@ -1254,7 +1254,7 @@ class Nepoogle(QWidget):
                 else:
                     cachedData = lvalue(self.cacheViewer, searchString, 0, 1)
 
-                if cachedData == None:
+                if cachedData is None:
                     oDataFormat = cDataFormat(searchString, self.model, self.screenWidth)
                     #output = oDataFormat.formatResourceInfo(searchString, self.sparql.shortcuts, self.sparql.ontologyTypes)
                     output = oDataFormat.formatResourceInfo(searchString, self.sparql.shortcuts, ontologyTypes)
@@ -1277,9 +1277,9 @@ class Nepoogle(QWidget):
 
                     self.navigationData = []
 
-                if cachedData == None:
+                if cachedData is None:
                     i = lindex(self.cacheViewer, searchString, 0)
-                    if i == None:
+                    if i is None:
                         self.cacheViewer += [[searchString, output.replace("<cached />", " (cached)")]]
 
                     else:
