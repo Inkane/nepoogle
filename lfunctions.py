@@ -22,19 +22,21 @@
 #*   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.         *
 #***************************************************************************
 
+from __future__ import unicode_literals
+
 import datetime
 import md5
 import os
 import re
 import subprocess
 import gettext
-#from PyKDE4.kdecore import *
+from PyKDE4.kdecore import KUrl
 
-#from PyQt4.QtCore import *
+from PyQt4.QtCore import QUrl, QFile, QDir
 #from PyKDE4.soprano import *
-#from PyKDE4.nepomuk import *
+from PyKDE4.nepomuk import Nepomuk
 
-#from lglobals import *
+from lglobals import PROGRAM_NAME
 
 _ = gettext.gettext
 
@@ -56,11 +58,11 @@ def addLinksToText(text=''):
     return text
 
 
-def dialogInputBox(message = _("Text")):
+def dialogInputBox(message=_("Text")):
     parameters = ["kdialog", "--title", PROGRAM_NAME, "--inputbox", message]
     dialogProcess = subprocess.Popen(parameters, stdout=subprocess.PIPE)
     dialogProcess.wait()
-    value = u""
+    value = ""
     for line in iter(dialogProcess.stdout.readline, ''):
         value += toUnicode(line)
 
@@ -72,15 +74,14 @@ def dialogInputBox(message = _("Text")):
     return value
 
 
-def dialogList(parameters = [], message = _("Select")):
+def dialogList(parameters=[], message=_("Select")):
     value = label = None
 
     if parameters != []:
-        parameters = ["kdialog", "--title", PROGRAM_NAME, "--radiolist", message] \
-                        + parameters
+        parameters = ["kdialog", "--title", PROGRAM_NAME, "--radiolist", message] + parameters
         dialogProcess = subprocess.Popen(parameters, stdout=subprocess.PIPE)
         dialogProcess.wait()
-        value = u""
+        value = ""
         for line in iter(dialogProcess.stdout.readline, ''):
             value += toUnicode(line)
 
@@ -98,11 +99,11 @@ def dialogList(parameters = [], message = _("Select")):
     return value, label
 
 
-def dialogTextInputBox(message = _("Text"), value = ""):
+def dialogTextInputBox(message=_("Text"), value=""):
     parameters = ["kdialog", "--title", PROGRAM_NAME, "--textinputbox", message, value]
     dialogProcess = subprocess.Popen(parameters, stdout=subprocess.PIPE)
     dialogProcess.wait()
-    value = u""
+    value = ""
     for line in iter(dialogProcess.stdout.readline, ''):
         value += toUnicode(line)
 
@@ -113,7 +114,8 @@ def dialogTextInputBox(message = _("Text"), value = ""):
     print("dialogTextInputBox:%s" % value)
     return value
 
-def fileExists(fileName = ''):
+
+def fileExists(fileName=''):
     if fileName == '':
         return False
 
@@ -125,13 +127,13 @@ def fileExists(fileName = ''):
         return os.path.exists(fileName)
 
 
-def formatDate(string = '', pack = False):
+def formatDate(string='', pack=False):
     result = datetime.datetime.strptime(string[:19], "%Y-%m-%dT%H:%M:%S")
     result = datetime.datetime.strftime(result, '%x')
     return result
 
 
-def formatDateTime(string = '', pack = False):
+def formatDateTime(string='', pack=False):
     result = datetime.datetime.strptime(string[:19], "%Y-%m-%dT%H:%M:%S")
     if pack and result.day == 1 and result.month == 1 and (result.hour + result.minute + result.second) == 0:
         result = datetime.datetime.strftime(result, '%Y')
@@ -142,7 +144,7 @@ def formatDateTime(string = '', pack = False):
     return result
 
 
-def fromPercentEncoding(url = ''):
+def fromPercentEncoding(url=''):
     qurl = QUrl()
     qurl.setEncodedUrl(url)
     qurl.setEncodedUrl(qurl.toString())
@@ -150,7 +152,7 @@ def fromPercentEncoding(url = ''):
     return toUnicode(qurl.toString())
 
 
-def getThumbnailUrl(url = ''):
+def getThumbnailUrl(url=''):
     thumbName = md5.new(QFile.encodeName(KUrl(url).url())).hexdigest() + ".png"
     thumbPath = QDir.homePath() + "/.thumbnails/"
     result = thumbPath + "large/" + thumbName
@@ -162,16 +164,16 @@ def getThumbnailUrl(url = ''):
     return "file://" + result
 
 
-def iif(condition = True, value = '', optionalValue = ''):
+def iif(condition=True, value='', optionalValue=''):
     return value if condition else optionalValue
 
 
-def lindex(items, value, column = None):
+def lindex(items, value, column=None):
     try:
         if vartype(items[0]) != 'list':
             column = None
 
-        if column == None:
+        if column is None:
             result = next((i for i, element in enumerate(items) if value in element), None)
 
         else:
@@ -183,7 +185,7 @@ def lindex(items, value, column = None):
     return result
 
 
-def lvalue(items, value, searchColumn = 0, valueColumn = 0):
+def lvalue(items, value, searchColumn=0, valueColumn=0):
     try:
         value = items[lindex(items, value, searchColumn)][valueColumn]
 
@@ -193,7 +195,7 @@ def lvalue(items, value, searchColumn = 0, valueColumn = 0):
     return value
 
 
-def QStringListToString(stringList = []):
+def QStringListToString(stringList=[]):
     result = ''
     for item in stringList:
         if result != '':
