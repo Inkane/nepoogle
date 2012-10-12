@@ -19,7 +19,7 @@ from cldataformat import cDataFormat
 from clsparql import cSparqlBuilder, cResource
 from chelper import cWebView, hackQueryParser
 from lfunctions import dialogInputBox, dialogList, dialogTextInputBox, lindex, vartype, toVariant
-from lglobals import INTERNAL_RESOURCE, SLEEP_AFTER_UPDATE
+from lglobals import INTERNAL_RESOURCE, SLEEP_AFTER_UPDATE, SLEEP_NO_SLEEP
 
 _ = gettext.gettext
 
@@ -501,7 +501,7 @@ class Nepoogle(QWidget):
 
 
     def addProperty(self, uri = None, ontology = "", text = ""):
-        if (uri == None):
+        if (uri is None):
             uri = self.leSearch.text().strip()
 
         if not uri[:13] == "nepomuk:/res/":
