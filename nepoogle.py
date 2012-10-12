@@ -17,9 +17,9 @@ from PyKDE4.soprano import Soprano
 from lglobals import DO_NOT_USE_NEPOMUK, PROGRAM_NAME, DEFAULT_ENGINE, PROGRAM_HTML_POWERED, PROGRAM_URL
 
 from cldataformat import cDataFormat
-from clsparql import cSparqlBuilder, cResource, NOCR, NOC
+from clsparql import cSparqlBuilder, cResource, NOCR, NOC, ontologyTypes
 from chelper import cWebView, hackQueryParser
-from lfunctions import dialogInputBox, dialogList, dialogTextInputBox, lindex, vartype, toVariant, fileExists
+from lfunctions import dialogInputBox, dialogList, dialogTextInputBox, lindex, vartype, toVariant, fileExists, lvalue
 from lglobals import INTERNAL_RESOURCE, SLEEP_AFTER_UPDATE, SLEEP_NO_SLEEP, ONTOLOGY_SYMBOL, ONTOLOGY_SYMBOL_CONTACT, ONTOLOGY_MUSIC_ALBUM_COVER, ONTOLOGY_LINK
 
 _ = gettext.gettext
@@ -1206,8 +1206,7 @@ class Nepoogle(QWidget):
 
         return "<a %s %s>%s</a>" % (title, href, value)
 
-
-    def processMacros(self, searchString = ""):
+    def processMacros(self, searchString=""):
         if searchString.find("--m0:") >= 0:
             searchString = searchString.replace("--m0:", "--playlist genre:-instrumental performer:")
 
@@ -1216,8 +1215,7 @@ class Nepoogle(QWidget):
 
         return searchString
 
-
-    def execQuery(self, searchString = ''):
+    def execQuery(self, searchString=''):
         self.leSearch.readOnly = True
         self.setCursor(Qt.BusyCursor)
         self.repaint()
@@ -1371,13 +1369,12 @@ class Nepoogle(QWidget):
 
             else:
                 output = "<html>\n  <head>\n    <title>%(title)s</title>\n    " \
-                            "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" \
-                            "\n  </head>\n<body><b>error:</b> %(error)s" \
-                            "%(powered)s</body>\n</html>" \
-                            % {'title': 'Querying Nepomuk', \
-                                'error': sys.exc_info()[1], \
-                                'powered': PROGRAM_HTML_POWERED \
-                                }
+                         "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" \
+                         "\n  </head>\n<body><b>error:</b> %(error)s" \
+                         "%(powered)s</body>\n</html>" \
+                         % {'title': 'Querying Nepomuk',
+                         'error': sys.exc_info()[1],
+                         'powered': PROGRAM_HTML_POWERED}
 
         self.pendingQuery = False
         self.queryMethod = None
@@ -1394,10 +1391,10 @@ class Nepoogle(QWidget):
 
             if warning[0] == "BUG001":
                 warningMsg += "There is a know bug using negation without a shortcut.\n" \
-                        "Please notice that the results may be inaccurate.\n\n"
+                              "Please notice that the results may be inaccurate.\n\n"
                 for i in range(1, len(warning)):
                     warningMsg += "Change \"%s\" for something like \"title:%s\" to solve this issue.\n" \
-                    % (warning[i], warning[i])
+                                  % (warning[i], warning[i])
 
             #else:
                 #pass
