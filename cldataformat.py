@@ -27,16 +27,23 @@ import fractions
 import os
 import re
 import gettext
+import time
 
-#from PyQt4.QtCore import *
+from PyQt4.QtCore import QUrl
 from PyQt4.QtGui import QImageReader
 from PyKDE4.kdeui import KIconLoader
-#from PyKDE4.nepomuk import *
-#from PyKDE4.soprano import *
+from PyKDE4.nepomuk import Nepomuk
+from PyKDE4.soprano import Soprano
 
-from clsparql import NOC, ONTOLOGY_MUSIC_ALBUM_COVER
-from lfunctions import lindex
-from lglobals import PROGRAM_HTML_POWERED
+from clsparql import NOC, NOCR, ONTOLOGY_MUSIC_ALBUM_COVER, ontologyInfo
+from lfunctions import (lindex, vartype, fileExists, toUnicode, getThumbnailUrl,
+                        fromPercentEncoding, lvalue, addLinksToText,
+                        ontologyToHuman)
+from lglobals import (PROGRAM_HTML_POWERED, INTERNAL_RESOURCE, cResource,
+                      DO_NOT_USE_NEPOMUK, INTERNAL_RESOURCE_IN_PLAYLIST,
+                      INTERNAL_RESOURCE_FORCED_IN_CONSOLE, formatDate,
+                      formatDateTime, INTERNAL_RESOURCE_IN_RESULTS_LIST,
+                      USE_INTERNAL_RESOURCE_FOR_MAIN_TYPE, SCRIPT_IMAGE_VIEWER)
 
 _ = gettext.gettext
 
@@ -50,6 +57,7 @@ _CONST_ICON_SYSTEM_RUN = 16
 _CONST_ICONS_LIST = (_CONST_ICON_PROPERTIES, _CONST_ICON_REMOVE,
                      _CONST_ICON_DOLPHIN, _CONST_ICON_KONQUEROR,
                      _CONST_ICON_SYSTEM_RUN)
+
 
 class cDataFormat():
     columnsCount = 3
@@ -77,7 +85,7 @@ class cDataFormat():
     viewerColumnsWidth = (screenWidth - 100) / 2
     playlistWidth = viewerColumnsWidth
     videoWidth = viewerColumnsWidth
-    videoHeight = int(0.5625*viewerColumnsWidth)
+    videoHeight = int(0.5625 * viewerColumnsWidth)
 
     supportedAudioFormats = ("flac", "mp3", "ogg", "wav")
     supportedImageFormats = QImageReader.supportedImageFormats() + ["nef"]
@@ -114,25 +122,24 @@ class cDataFormat():
     iconUnknown = KIconLoader().iconPath('unknown', KIconLoader.Small)
 
     htmlHeader = "<html>\n" \
-                        "<head>\n" \
-                        "<title>%(title)s</title>\n" \
-                        "<style type=\"text/css\">" \
-                        "    body {%(body_style)s}\n" \
-                        "    tr {%(tr_style)s}\n" \
-                        "    p {%(p_style)s}\n" \
-                        "</style>\n" \
-                        "<meta charset=\"UTF-8\" />" \
-                        "%(scripts)s\n" \
-                        "</head>\n" \
-                        "<body>\n" \
-                        % {"title": "%s", \
-                            "scripts": "%s", \
-                            "body_style": "font-size:small;", \
-                            "p_style": "font-size:small;", \
-                            "tr_style": "font-size:small;" \
-                            }
+                 "<head>\n" \
+                 "<title>%(title)s</title>\n" \
+                 "<style type=\"text/css\">" \
+                 "    body {%(body_style)s}\n" \
+                 "    tr {%(tr_style)s}\n" \
+                 "    p {%(p_style)s}\n" \
+                 "</style>\n" \
+                 "<meta charset=\"UTF-8\" />" \
+                 "%(scripts)s\n" \
+                 "</head>\n" \
+                 "<body>\n" \
+                 % {"title": "%s",
+                 "scripts": "%s",
+                 "body_style": "font-size:small;",
+                 "p_style": "font-size:small;",
+                 "tr_style": "font-size:small;"}
     htmlFooter = "</body>\n" \
-                        "</html>"
+                 "</html>"
 
     htmlProgramInfo = PROGRAM_HTML_POWERED
 
