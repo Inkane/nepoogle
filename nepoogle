@@ -147,10 +147,10 @@ def main(args):
     displayResults = None
     gui = not sys.stdout.isatty()
     verboseMode = None
-    parameters = toUnicode('')
+    parameters = ''
     paramOption = ""
     for i in range(1, len(args)):
-        parameter = toUnicode(args[i].strip())
+        parameter = args[i].strip()
 
         if parameter.lower() == '--help':
             buildHelp()
@@ -259,7 +259,7 @@ def main(args):
 
                 if searchEngine == 0:
                     oNQP = Nepomuk.Query.QueryParser()
-                    query = toUnicode(oNQP.parse(searchString[3:]).toSparqlQuery())
+                    query = oNQP.parse(searchString[3:]).toSparqlQuery()
                     oNQP = None
                     if verboseMode:
                         # Improve a little bit readability.
@@ -270,7 +270,7 @@ def main(args):
 
                 elif searchEngine == 2:
                     oNQP = Nepomuk.Query.QueryParser()
-                    query = toUnicode(oNQP.parse(searchString[3:]).toSparqlQuery())
+                    query = oNQP.parse(searchString[3:]).toSparqlQuery()
                     oNQP = None
                     query = hackQueryParser(query, 'e2')
                     if verboseMode:

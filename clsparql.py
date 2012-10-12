@@ -145,7 +145,7 @@ def NOC(name = '', returnQUrl = False):
 
 def NOCR(ontology = ''):
     if ontology[:7] == "http://":
-        return os.path.basename(toUnicode(ontology)).replace('#', ':').replace('22-rdf-syntax-ns:', 'rdf:').replace('rdf-schema:', 'rdfs:')
+        return os.path.basename(ontology).replace('#', ':').replace('22-rdf-syntax-ns:', 'rdf:').replace('rdf-schema:', 'rdfs:')
 
     else:
         return ontology
@@ -247,14 +247,14 @@ def ontologyInfo(ontology = '', model = None):
             while data.next():
                 ontType = lvalue(ontologyTypes, shortOnt.lower().strip(), 0, 1)
                 if ontType == None:
-                    ontologyRange = toUnicode(data["range"].toString())
+                    ontologyRange = data["range"].toString()
                     if ontologyRange.find("#") >= 0:
-                        ontType = toUnicode(ontologyRange.split("#")[1])
+                        ontType = ontologyRange.split("#")[1]
 
                     else:
                         ontType = ontologyRange
 
-                ontologiesInfo += [[shortOnt, toUnicode(data["label"].toString()), ontType]]
+                ontologiesInfo += [[shortOnt, data["label"].toString(), ontType]]
                 i = -1
 
     if i == None:
@@ -271,7 +271,7 @@ def toN3(url = ''):
     else:
         result = QUrl(url).toEncoded()
 
-    return toUnicode(result.replace('?', '%3f'))
+    return result.replace('?', '%3f')
 
 
 # An experimental readonly alternative to Nepomuk.Resource().
@@ -302,7 +302,7 @@ class cResource():
             if vartype(uri) not in ("unicode", "string"):
 
                 if (vartype(uri) == "QString"):
-                    uri = toUnicode(uri)
+                    uri = uri
 
                 else:
                     try:
@@ -356,7 +356,7 @@ class cResource():
             while self.data.next():
                 ontology = self.data["ont"].toString()
                 name = NOCR(ontology)
-                #value = toUnicode(self.data["val"].toString())
+                #value = self.data["val"].toString()
                 value = self.data["val"]
                 if not self.ontologies.has_key(name):
                     self.ontologies[name] = []
@@ -365,7 +365,7 @@ class cResource():
                 #print name, valueType, value.toString()
                 # Other types: "date", "dateTime", "int", "integer", "nonNegativeInteger", "float", "duration", "size"
                 if valueType == 'boolean':
-                    value = toUnicode(value.toString())
+                    value = value.toString()
                     if ((value.lower() == "false") or (value.lower() == "0")):
                         self.ontologies[name] += [QVariant(False)]
 
@@ -406,7 +406,7 @@ class cResource():
                 del self.ontologies[ontology]
 
         value = self.getValue(ontology)
-        #print NOCR(ontology), toUnicode(value.toString())
+        #print NOCR(ontology), value.toString()
         if value == None:
             value = QVariant(u"")
 
@@ -511,7 +511,7 @@ class cResource():
             result = u""
 
         else:
-            result = toUnicode(result.toString())
+            result = result.toString()
 
         return result
 
@@ -1636,7 +1636,7 @@ class cSparqlBuilder():
                         if bindingName[-len(self.sortSuffix):] == self.sortSuffix:
                             continue
 
-                        structure += [toUnicode(bindingName)]
+                        structure += [bindingName]
 
                 aRow = []
                 for bindingName in bindings.bindingNames():
@@ -1644,12 +1644,12 @@ class cSparqlBuilder():
                     if bindingName[-len(self.sortSuffix):] == self.sortSuffix:
                         continue
 
-                    #value = toUnicode(toPercentEncoding(bindings[bindingName].toString()))
-                    value = toUnicode(bindings[bindingName].toString())
+                    #value = toPercentEncoding(bindings[bindingName].toString())
+                    value = bindings[bindingName].toString()
 
                     if value != '':
                         if bindingName == 'type':
-                            value = os.path.basename(toUnicode(value))
+                            value = os.path.basename(value)
                             value = value.split("#")
                             try:
                                 value = '[' + value[1] + ']'
@@ -1661,7 +1661,7 @@ class cSparqlBuilder():
                             # Novedad en kde 4.7.0
                             qurl = QUrl()
                             qurl.setEncodedUrl(value)
-                            value = toUnicode(qurl.toString())
+                            value = qurl.toString()
                             # Novedad en kde 4.7.0
 
                         aRow += [value]
