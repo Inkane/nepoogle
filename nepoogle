@@ -39,7 +39,9 @@ from PyKDE4.nepomuk import Nepomuk
 
 from nepoogle import Nepoogle
 from lglobals import DEFAULT_ENGINE, PROGRAM_VERSION_DATE, PROGRAM_VERSION_VERSION, PROGRAM_NAME
-from clsparql import cSparqlBuilder, cDataFormat, hackQueryParser
+from clsparql import cSparqlBuilder
+from cldataformat import cDataFormat
+from chelper import hackQueryParser
 
 #from PyKDE4.kdecore import ki18n, i18n, KCmdLineArgs, KAboutData
 #from PyKDE4.kdeui import KApplication, KXmlGuiWindow, KStandardAction, KAction, KIcon
@@ -281,7 +283,7 @@ def main(args):
                 oSparql = None
 
                 if displayResults in (None, True):
-                    oDataFormat = cDataFormat(searchString, self.screenWidth)
+                    oDataFormat = cDataFormat(searchString, nepoogle.screenWidth)
                     oDataFormat.formatAsText(data, structure, time)
 
                 output = "\n%(records)s records found in %(seconds).4f seconds.\n" \
