@@ -20,7 +20,7 @@ from cldataformat import cDataFormat
 from clsparql import cSparqlBuilder, cResource, NOCR, NOC
 from chelper import cWebView, hackQueryParser
 from lfunctions import dialogInputBox, dialogList, dialogTextInputBox, lindex, vartype, toVariant, fileExists
-from lglobals import INTERNAL_RESOURCE, SLEEP_AFTER_UPDATE, SLEEP_NO_SLEEP
+from lglobals import INTERNAL_RESOURCE, SLEEP_AFTER_UPDATE, SLEEP_NO_SLEEP, ONTOLOGY_SYMBOL, ONTOLOGY_SYMBOL_CONTACT, ONTOLOGY_MUSIC_ALBUM_COVER, ONTOLOGY_LINK
 
 _ = gettext.gettext
 
