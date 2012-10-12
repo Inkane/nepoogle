@@ -766,7 +766,7 @@ class Nepoogle(QWidget):
                 print("url: %s" % url)
 
                 dropType = None
-                if dropType == None:
+                if dropType is None:
                     ext = os.path.splitext(url)[1][1:].lower()
                     if (ext != ''):
                         if ext in supportedImageFormats:
