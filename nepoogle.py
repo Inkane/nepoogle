@@ -16,7 +16,7 @@ from PyKDE4.soprano import Soprano
 from lglobals import DO_NOT_USE_NEPOMUK, PROGRAM_NAME, DEFAULT_ENGINE, PROGRAM_HTML_POWERED, PROGRAM_URL
 
 from cldataformat import cDataFormat
-from clsparql import cSparqlBuilder, cResource
+from clsparql import cSparqlBuilder, cResource, NOCR
 from chelper import cWebView, hackQueryParser
 from lfunctions import dialogInputBox, dialogList, dialogTextInputBox, lindex, vartype, toVariant
 from lglobals import INTERNAL_RESOURCE, SLEEP_AFTER_UPDATE, SLEEP_NO_SLEEP
@@ -522,13 +522,13 @@ class Nepoogle(QWidget):
         if ontology == "":
             query = 'SELECT DISTINCT ?r\n' \
                     'WHERE {\n' \
-                        '\t{\n' \
-                        '\t\t?r rdfs:domain %s .\n' \
-                        '\t} UNION {\n' \
-                        '\t\t?r rdfs:range rdfs:Literal .\n' \
-                        '\t} UNION {\n' \
-                        '\t\t?r rdfs:range xsd:string .\n' \
-                        '\t}\n' \
+                    '\t{\n' \
+                    '\t\t?r rdfs:domain %s .\n' \
+                    '\t} UNION {\n' \
+                    '\t\t?r rdfs:range rdfs:Literal .\n' \
+                    '\t} UNION {\n' \
+                    '\t\t?r rdfs:range xsd:string .\n' \
+                    '\t}\n' \
                     '}\n' \
                     % (resourceMainType)
 
@@ -549,14 +549,14 @@ class Nepoogle(QWidget):
                         status = "off"
 
                 ontologyResource, labelResource = dialogList(parameters, _("Select an ontology:"))
-                if ((ontologyResource == None) or (ontologyResource == "")):
+                if ((ontologyResource is None) or (ontologyResource == "")):
                     return False
 
         else:
             ontologyResource = ontology
             labelResource = ontology
 
-        if not ((ontologyResource == None) or (ontologyResource == "")):
+        if not ((ontologyResource is None) or (ontologyResource == "")):
             if text == "":
                 text = dialogInputBox(_("Value to store in \"%s\":") % ontologyResource)
 
