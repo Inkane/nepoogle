@@ -33,7 +33,6 @@ import gettext
 from PyKDE4.kdecore import KUrl
 
 from PyQt4.QtCore import QUrl, QFile, QDir
-#from PyKDE4.soprano import *
 from PyKDE4.nepomuk import Nepomuk
 
 from lglobals import PROGRAM_NAME
@@ -42,8 +41,10 @@ _ = gettext.gettext
 
 
 def log_call(f, *args, **kwargs):
-    def new_f():
+    def new_f(*args, **kwargs):
+        import inspect
         print f.func_name
+        print "Caller: ", inspect.stack()[1][3]
         return f(*args, **kwargs)
     return new_f
 
@@ -233,13 +234,14 @@ def toUtf8(string):
 @log_call
 def toUnicode(string):
     try:
-
         if vartype(string) == 'QString':
             return unicode(str(string.toUtf8()), gSysEncoding)
 
         if vartype(string) == 'unicode':
             return string
 
+        print ">>---o>>", string
+        print type(string)
         return unicode(string, gSysEncoding)
 
     except:
@@ -264,5 +266,3 @@ def toVariant(value):
 
 def vartype(var):
     return type(var).__name__
-
-#END lfunctions.py
