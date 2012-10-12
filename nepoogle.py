@@ -6,7 +6,7 @@ import subprocess
 import time
 
 from PyQt4.QtCore import Qt, SIGNAL, QUrl
-from PyQt4.QtGui import QWidget, QPushButton, QIcon, QLineEdit, QHBoxLayout, QMessageBox, QGridLayout
+from PyQt4.QtGui import QWidget, QPushButton, QIcon, QLineEdit, QHBoxLayout, QMessageBox, QGridLayout, QImageReader
 from PyQt4.QtWebKit import QWebPage
 
 
