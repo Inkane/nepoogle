@@ -63,12 +63,12 @@ class Nepoogle(QWidget):
     iconSystemSearch = KIconLoader().iconPath('system-search', KIconLoader.NoGroup)
 
     htmlTableHeader = "<table style=\"text-align:left; width: 100%%;\" " \
-                        "border=\"%(border)s\" cellpadding=\"%(cellpadding)s\" cellspacing=\"0\">" \
-                        "<tbody>\n"
+                      "border=\"%(border)s\" cellpadding=\"%(cellpadding)s\" cellspacing=\"0\">" \
+                      "<tbody>\n"
     htmlTableFooter = "</tbody></table>\n"
 
 
-    def __init__(self, parent = None, searchString = '', verboseMode = False, screenRect = None):
+    def __init__(self, parent=None, searchString='', verboseMode=False, screenRect=None):
         super(Nepoogle, self).__init__(parent)
 
         if (screenRect is not None):
