@@ -796,7 +796,7 @@ class Nepoogle(QWidget):
                         self.addProperty(uri, ontValue)
                         continue
 
-                if dropType == None:
+                if dropType is None:
                     if (url[:9] == "propadd:/"):
                         self.addProperty(uri)
                         continue
