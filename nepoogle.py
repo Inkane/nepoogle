@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import sys
 import gettext
 import subprocess
+import time
 
 from PyQt4.QtCore import Qt, SIGNAL, QUrl
 from PyQt4.QtGui import QWidget, QPushButton, QIcon, QLineEdit, QHBoxLayout, QMessageBox, QGridLayout
@@ -18,7 +19,7 @@ from cldataformat import cDataFormat
 from clsparql import cSparqlBuilder, cResource
 from chelper import cWebView, hackQueryParser
 from lfunctions import dialogInputBox, dialogList, dialogTextInputBox, lindex, vartype
-from lglobals import INTERNAL_RESOURCE
+from lglobals import INTERNAL_RESOURCE, SLEEP_AFTER_UPDATE
 
 _ = gettext.gettext
 
@@ -481,7 +482,7 @@ class Nepoogle(QWidget):
             except:
                 rating = 0
 
-        if ((rating == None) or (rating < 0)):
+        if ((rating is None) or (rating < 0)):
             resource.removeProperty(toVariant(QUrl(resource.ratingUri())))
             rating = None
 
