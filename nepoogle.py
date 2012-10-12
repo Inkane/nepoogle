@@ -67,7 +67,6 @@ class Nepoogle(QWidget):
                       "<tbody>\n"
     htmlTableFooter = "</tbody></table>\n"
 
-
     def __init__(self, parent=None, searchString='', verboseMode=False, screenRect=None):
         super(Nepoogle, self).__init__(parent)
 
@@ -149,13 +148,11 @@ class Nepoogle(QWidget):
         else:
             self.leSearch.setText(searchString)
 
-        self.leSearch.setSelection(0,999)
+        self.leSearch.setSelection(0, 999)
         self.leSearch.setFocus()
 
         if searchString == '':
             self.execQuery('--help')
-
-
 
     def downloadRequested(self, request):
         url = request.url().toString()
@@ -175,7 +172,7 @@ class Nepoogle(QWidget):
 
             if url != '':
                 print(url)
-                subproces.Popen([PROGRAM_URL, "--gui", url])
+                subprocess.Popen([PROGRAM_URL, "--gui", url])
 
 
     def unsupportedContent(self, request):
