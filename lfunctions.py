@@ -40,6 +40,13 @@ from lglobals import PROGRAM_NAME
 
 _ = gettext.gettext
 
+
+def log_call(f, *args, **kwargs):
+    def new_f():
+        print f.func_name
+        return f(*args, **kwargs)
+    return new_f
+
 # Program functions.
 try:
     gSysEncoding = os.environ["LANG"].split(".")[1]
@@ -210,6 +217,7 @@ def toPercentEncoding(url=''):
     return QUrl.toPercentEncoding(url)
 
 
+@log_call
 def toUtf8(string):
     try:
         if vartype(string) == 'QString':
@@ -222,6 +230,7 @@ def toUtf8(string):
         return string
 
 
+@log_call
 def toUnicode(string):
     try:
 
@@ -237,6 +246,7 @@ def toUnicode(string):
         return string
 
 
+@log_call
 def toVariant(value):
     if (vartype(value) == "QUrl"):
         pass
