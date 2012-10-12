@@ -870,14 +870,14 @@ class Nepoogle(QWidget):
                     if dropType == "resource":
                         query = 'SELECT DISTINCT ?r\n' \
                                 'WHERE {\n' \
-                                    '\t?r rdfs:range %s .\n' \
+                                '\t?r rdfs:range %s .\n' \
                                 '}\n' \
                                 % (resourceMainType)
 
                     else:
                         query = 'SELECT DISTINCT ?r\n' \
                                 'WHERE {\n' \
-                                    '\t?r rdfs:domain %s .\n' \
+                                '\t?r rdfs:domain %s .\n' \
                                 '}\n' \
                                 % (resourceMainType)
 
@@ -921,9 +921,8 @@ class Nepoogle(QWidget):
             time.sleep(mustRefresh)
             self.pendingQuery = True
             self.queryMethod = "refresh"
-            self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>' \
-                % self.iconProcessIdle)
-
+            self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>'
+                                  % self.iconProcessIdle)
 
     def goBackward(self):
         refresh = False
@@ -949,7 +948,6 @@ class Nepoogle(QWidget):
             self.repaint()
             self.navigationData = self.cache[self.queriesIndex].data
 
-
     def goForward(self):
         if (self.queriesIndex < (len(self.cache) - 1)):
             self.queriesIndex += 1
@@ -964,13 +962,11 @@ class Nepoogle(QWidget):
             self.repaint()
             self.navigationData = self.cache[self.queriesIndex].data
 
-
     def showHelp(self):
         self.leSearch.setText("--help")
         self.pendingQuery = False
         self.wvOutput.setHtml(self.buildHelp(self.sparql))
         self.repaint()
-
 
     def buildHelp(self, oSparqlBuilder):
         commands = '<p><b>Commands</b>:\n<ul>\n'
@@ -979,7 +975,7 @@ class Nepoogle(QWidget):
         commands += '</ul></p>\n'
 
         shortcuts = '<p><b>Onlologies shorcuts</b>:<ul>\n' + self.htmlTableHeader \
-                        % {'border': 0, 'cellpadding': 0}
+                    % {'border': 0, 'cellpadding': 0}
         for shortcut in oSparqlBuilder.shortcuts:
             info = ''
             fmtOntology = shortcut[0]
