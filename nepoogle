@@ -337,21 +337,20 @@ def main(args):
 
             else:
                 output = "\nerror: %(error)s\n" \
-                            "\n--\n" \
-                            "Powered by %(name)s %(version)s (%(date)s)" \
-                            % {'title': 'Querying Nepomuk', \
-                                'error': sys.exc_info()[1], \
-                                'name': PROGRAM_NAME, \
-                                'version': PROGRAM_VERSION_VERSION, \
-                                'date': PROGRAM_VERSION_DATE \
-                                }
+                         "\n--\n" \
+                         "Powered by %(name)s %(version)s (%(date)s)" \
+                         % {'title': 'Querying Nepomuk',
+                         'error': sys.exc_info()[1],
+                         'name': PROGRAM_NAME,
+                         'version': PROGRAM_VERSION_VERSION,
+                         'date': PROGRAM_VERSION_DATE}
 
         print(output)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     display = os.getenv("DISPLAY")
-    if display == None:
+    if display is None:
         os.putenv("DISPLAY", ":0")
 
     main(sys.argv)
