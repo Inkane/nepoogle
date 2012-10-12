@@ -174,16 +174,13 @@ class Nepoogle(QWidget):
                 print(url)
                 subprocess.Popen([PROGRAM_URL, "--gui", url])
 
-
     def unsupportedContent(self, request):
         QMessageBox.warning(self, '%s - %s' % (PROGRAM_NAME, _("warning")), "Option not available yet.")
-
 
     def openLink(self, checked):
         url = self.wvOutput.page().currentFrame().requestedUrl()
         if url.toString() != "":
             self.linkClicked(url, True)
-
 
     def openLinkInNewWindow(self, checked):
         url = self.wvOutput.page().currentFrame().requestedUrl().toString()
@@ -205,7 +202,6 @@ class Nepoogle(QWidget):
             if url != '':
                 subprocess.Popen([PROGRAM_URL, "--gui", url])
 
-
     def loadFinished(self, ok):
         self.repaint()
         if self.pendingQuery:
@@ -216,23 +212,21 @@ class Nepoogle(QWidget):
     def loadProgress(self, progress):
         pass
 
-
     def loadStarted(self):
         pass
-
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Return or event.key() == Qt.Key_Enter:
             self.pendingQuery = True
             self.queryMethod = "manual"
-            self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>' \
-                % self.iconProcessIdle)
+            self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>'
+                                  % self.iconProcessIdle)
 
         elif event.key() == Qt.Key_F5:
             self.pendingQuery = True
             self.queryMethod = "refresh"
-            self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>' \
-                % self.iconProcessIdle)
+            self.wvOutput.setHtml('<html><body><h3>Searching... <img src="file://%s"></h3></body></html>'
+                                  % self.iconProcessIdle)
 
         elif event.key() == Qt.Key_F3:
             self.findText(True)
@@ -261,19 +255,15 @@ class Nepoogle(QWidget):
             elif event.key() == Qt.Key_Plus:
                 self.addProperty()
 
-
         elif event.key() == Qt.Key_Escape:
             self.close()
 
-
         self.keyModifiers = event.modifiers()
-
 
     def keyReleaseEvent(self, event):
         self.keyModifiers = event.modifiers()
 
-
-    def findText(self, again = False):
+    def findText(self, again=False):
         if (not again or (self.textToFind == "")):
             self.textToFind = dialogInputBox(_("Text to find:"))
 
@@ -284,8 +274,7 @@ class Nepoogle(QWidget):
         else:
             QMessageBox.warning(self, "%s - %s" % (PROGRAM_NAME, _("warning")), _("Text not found."))
 
-
-    def linkClicked(self, url, forceExec = False):
+    def linkClicked(self, url, forceExec=False):
         url = url.toString()
         print(url)
 
