@@ -22,20 +22,24 @@
 #*   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.         *
 #***************************************************************************
 
-import datetime, fractions, os, re
+import datetime
+import fractions
+import os
+import re
+import gettext
 
-from PyQt4.QtCore import *
-from PyKDE4.kdeui import *
-from PyKDE4.nepomuk import *
-from PyKDE4.soprano import *
+#from PyQt4.QtCore import *
+from PyQt4.QtGui import QImageReader
+from PyKDE4.kdeui import KIconLoader
+#from PyKDE4.nepomuk import *
+#from PyKDE4.soprano import *
 
-from clsparql import *
-from lfunctions import *
-from lglobals import *
+from clsparql import NOC, ONTOLOGY_MUSIC_ALBUM_COVER
+from lfunctions import lindex
+from lglobals import PROGRAM_HTML_POWERED
 
 _ = gettext.gettext
 
-#BEGIN cldataformat.py
 _CONST_ICON_DOLPHIN = 1
 _CONST_ICON_KONQUEROR = 2
 _CONST_ICON_PROPERTIES = 4
@@ -43,9 +47,9 @@ _CONST_ICON_REMOVE = 8
 _CONST_ICON_SYSTEM_RUN = 16
 
 # Order is relevant, is display order.
-_CONST_ICONS_LIST = (_CONST_ICON_PROPERTIES, _CONST_ICON_REMOVE, \
-                        _CONST_ICON_DOLPHIN, _CONST_ICON_KONQUEROR, \
-                        _CONST_ICON_SYSTEM_RUN)
+_CONST_ICONS_LIST = (_CONST_ICON_PROPERTIES, _CONST_ICON_REMOVE,
+                     _CONST_ICON_DOLPHIN, _CONST_ICON_KONQUEROR,
+                     _CONST_ICON_SYSTEM_RUN)
 
 class cDataFormat():
     columnsCount = 3
@@ -2091,5 +2095,3 @@ class cDataFormat():
 
         else:
             return ""
-
-#END cldataformat.py
