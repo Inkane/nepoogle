@@ -22,27 +22,31 @@
 #*   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.         *
 #***************************************************************************
 
-import datetime, md5, os, re, subprocess, sys
-from PyKDE4.kdecore import *
+import datetime
+import md5
+import os
+import re
+import subprocess
+import gettext
+#from PyKDE4.kdecore import *
 
-from PyQt4.QtCore import *
-from PyKDE4.soprano import *
-from PyKDE4.nepomuk import *
+#from PyQt4.QtCore import *
+#from PyKDE4.soprano import *
+#from PyKDE4.nepomuk import *
 
-from lglobals import *
+#from lglobals import *
 
 _ = gettext.gettext
 
-#BEGIN lfunctions.py
 # Program functions.
 try:
     gSysEncoding = os.environ["LANG"].split(".")[1]
 
 except:
-    gSysEncoding = 'utf-8' # Forcing UTF-8.
+    gSysEncoding = 'utf-8'  # Forcing UTF-8.
 
 
-def addLinksToText(text = ''):
+def addLinksToText(text=''):
     patter1 = re.compile(r"(^|[\n ])(([\w]+?://[\w\#$%&~.\-;:=,?@\[\]+]*)(/[\w\#$%&~/.\-;:=,?@\[\]+]*)?)", re.IGNORECASE | re.DOTALL)
     patter2 = re.compile(r"#(^|[\n ])(((www|ftp)\.[\w\#$%&~.\-;:=,?@\[\]+]*)(/[\w\#$%&~/.\-;:=,?@\[\]+]*)?)", re.IGNORECASE | re.DOTALL)
 
@@ -200,9 +204,35 @@ def QStringListToString(stringList = []):
     return result
 
 
-def toPercentEncoding(url = ''):
+def toPercentEncoding(url=''):
     return QUrl.toPercentEncoding(url)
 
+
+def toUtf8(string):
+    try:
+        if vartype(string) == 'QString':
+            return string.toUtf8()  # REVISAR: Esto no es coherente con el resto.
+
+        else:
+            return string.encode(gSysEncoding)
+
+    except:
+        return string
+
+
+def toUnicode(string):
+    try:
+
+        if vartype(string) == 'QString':
+            return unicode(str(string.toUtf8()), gSysEncoding)
+
+        if vartype(string) == 'unicode':
+            return string
+
+        return unicode(string, gSysEncoding)
+
+    except:
+        return string
 
 
 def toVariant(value):
